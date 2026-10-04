@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awwwards-Tier Interactive Showcase (8-States & Design Tokens)</title>
+  <style>
+    /* ==========================================================================
+       1. Embedded Design Tokens
+       ========================================================================== */
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111726;
+      --bg-elevated: #1a2236;
+      --bg-glass: rgba(17, 23, 38, 0.7);
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(6, 182, 212, 0.4);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent-cyan: #06b6d4;
+      --accent-indigo: #6366f1;
+      --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+      --accent-glow: rgba(6, 182, 212, 0.25);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-full: 9999px;
+
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 280ms;
+
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --shadow-hover: 0 20px 40px -15px var(--accent-glow);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background-image: 
+        radial-gradient(circle at 20% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+    }
+
+    /* ==========================================================================
+       2. Grid & Container Architecture
+       ========================================================================== */
+    .showcase-container {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* ==========================================================================
+       3. Interactive Card Component (8-State Demonstration)
+       ========================================================================== */
+    .craft-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      
+      /* GPU Transition: strictly transform and opacity */
+      transition: transform var(--duration-normal) var(--ease-out-expo),
+                  border-color var(--duration-normal) var(--ease-out-expo),
+                  box-shadow var(--duration-normal) var(--ease-out-expo);
+      will-change: transform;
+    }
+
+    /* State 1: Hover (Micro-elevation & environmental glow) */
+    .craft-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: var(--border-highlight);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* State 2: Active / Press (Tactile compression) */
+    .craft-card:active {
+      transform: translateY(-1px) scale(0.99);
+      transition-duration: 100ms;
+    }
+
+    /* State 3: Focus-Visible (Accessible ring) */
+    .craft-card:focus-visible {
+      outline: 2px solid var(--accent-cyan);
+      outline-offset: 3px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Button Touch optimization: minimum 44px height */
+    .craft-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent-gradient);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: transform var(--duration-normal) var(--ease-out-expo),
+                  opacity var(--duration-normal) var(--ease-out-expo);
+      will-change: transform;
+    }
+
+    .craft-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .craft-button:active {
+      transform: translateY(0px) scale(0.97);
+    }
+
+    /* State: Disabled */
+    .craft-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+      filter: grayscale(0.5);
+    }
+
+    /* State: Skeleton / Shimmer */
+    .skeleton-box {
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .skeleton-box::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      transform: translateX(-100%);
+      background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer 1.8s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="showcase-container">
+    <!-- Card 1: Default & Interactive -->
+    <article class="craft-card" tabindex="0">
+      <div class="badge">Awwwards Tier</div>
+      <h2 class="card-title">系统化 Design Tokens</h2>
+      <p class="card-description">全卡片纯 GPU 合成层动效（transform / opacity），消灭魔数，环境光微反差。</p>
+      <button class="craft-button" type="button">探索交互</button>
+    </article>
+
+    <!-- Card 2: Skeleton / Loading Demo -->
+    <article class="craft-card" aria-busy="true">
+      <div class="badge skeleton-box" style="width: 80px; height: 24px; margin-bottom: 16px;"></div>
+      <div class="skeleton-box" style="width: 70%; height: 24px; margin-bottom: 12px;"></div>
+      <div class="skeleton-box" style="width: 100%; height: 16px; margin-bottom: 8px;"></div>
+      <div class="skeleton-box" style="width: 85%; height: 16px; margin-bottom: 24px;"></div>
+      <div class="skeleton-box" style="width: 110px; height: 44px; border-radius: var(--radius-sm);"></div>
+    </article>
+
+    <!-- Card 3: Disabled State -->
+    <article class="craft-card" style="opacity: 0.65;">
+      <div class="badge" style="background: rgba(148, 163, 184, 0.1); color: var(--text-muted); border-color: rgba(148, 163, 184, 0.2);">Disabled</div>
+      <h2 class="card-title" style="color: var(--text-secondary);">不可用感知态</h2>
+      <p class="card-description">低反差但保留质感分层，清晰传达不可用状态，按钮保持最小 44px 规范触控面积。</p>
+      <button class="craft-button" disabled type="button">锁定操作</button>
+    </article>
+  </main>
+
+</body>
+</html>
