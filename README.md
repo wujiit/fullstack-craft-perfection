@@ -146,26 +146,6 @@ flowchart LR
 
 ---
 
-## 🚀 如何使用 (How to Use)
-
-### 1. 接入 Antigravity (Google)
-将本项目克隆或复制到 Antigravity 全局技能目录：
-```bash
-# Windows
-%USERPROFILE%\.gemini\config\skills\fullstack-craft-perfection\
-
-# macOS / Linux
-~/.gemini/config/skills/fullstack-craft-perfection/
-```
-Antigravity 将自动发现并激活本技能包，全局所有会话均受该标准严格约束。
-
-### 2. 接入 Cursor / Windsurf / Claude Code / Cline
-将 `SKILL.md` 的核心规范与 47 项清单内容直接注入至您的系统提示词（System Prompt）、`.cursorrules` 或项目根目录下的 `AGENTS.md` 中。
-
-### 3. 作为团队工程规范
-直接将本项目的 47 项清单集成到团队 Code Review、CI/CD 质检与技术评审流程中。
-
----
 
 ## 📄 开源许可证 (License)
 
