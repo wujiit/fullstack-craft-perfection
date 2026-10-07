@@ -1,0 +1,109 @@
+/**
+ * Systematic Design Tokens (Universal Edition)
+ * Awwwards / Webby / FWA Tier Visual & Interaction Foundations
+ */
+
+:root {
+  /* ==========================================================================
+     1. Color Palette (Dark-Mode First, Layered Surfaces & Glow Accents)
+     ========================================================================== */
+  --color-bg-base: #0a0c10;
+  --color-bg-surface: #12161f;
+  --color-bg-elevated: #1a202c;
+  --color-bg-overlay: rgba(26, 32, 44, 0.75);
+  --color-bg-glass: rgba(18, 22, 31, 0.65);
+
+  /* Borders & Dividers */
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-default: rgba(255, 255, 255, 0.14);
+  --color-border-highlight: rgba(255, 255, 255, 0.28);
+
+  /* Typography / Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #020617;
+
+  /* Brand & Accent Signals */
+  --color-accent-primary: #06b6d4;     /* Electric Cyan */
+  --color-accent-secondary: #6366f1;   /* Neo Indigo */
+  --color-accent-gradient: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+  --color-accent-glow: rgba(6, 182, 212, 0.35);
+
+  /* Feedback States */
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.25);
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-error-glow: rgba(239, 68, 68, 0.25);
+
+  /* ==========================================================================
+     2. Spacing Scale (4px Rhythm System)
+     ========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ==========================================================================
+     3. Typography Scale (Fluid Modular Scale)
+     ========================================================================== */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* ==========================================================================
+     4. Border Radius Tokens
+     ========================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     5. Elevation & Box Shadows (Ambient Diffusion + High-Contrast Occlusion)
+     ========================================================================== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 20px -2px var(--color-accent-glow);
+
+  /* ==========================================================================
+     6. Motion & Animation Physics (GPU Compositing Friendly)
+     ========================================================================== */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* Premium friction deceleration */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* Micro-bounce tactile snap */
+
+  --duration-instant: 100ms;
+  --duration-fast: 180ms;
+  --duration-normal: 260ms;
+  --duration-slow: 400ms;
+}
