@@ -127,7 +127,7 @@ Every code contribution or refactoring task must verify against this 47-item che
 9. [ ] Are critical comments and historical business logic preserved?
 10. [ ] Are errors safely intercepted and logged server-side without leaking stack traces to users?
 11. [ ] Are DOM elements checked for null before manipulation in JavaScript?
-12. [ ] Is the working directory free of temporary `.bak` or test files?
+12. [ ] Were modifications executed directly via native file editing tools rather than interim Python/Shell scripts? Is the workspace completely free of temporary .py scripts, .bak, or test files?
 13. [ ] Do external HTTP requests configure explicit timeouts and resilient fallback handling?
 14. [ ] Are high-frequency endpoints protected by caching and rate limiting?
 15. [ ] Do all database updates/deletes specify a `WHERE` clause, and do queries specify `LIMIT`?
