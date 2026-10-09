@@ -73,7 +73,7 @@ flowchart LR
 - **Occam's Razor (KISS & Anti-YAGNI)**: Eliminate speculative multi-layer factories or empty wrappers. Every line must provide tangible business value.
 
 ### Phase 2: Design Systems & Award-Winning Craft
-- **Design Tokens Driven (Zero Magic Numbers)**: Converge global colors, spacing, typography, and radiuses into CSS variables.
+- **Design Tokens Driven & Anti-AI Slop Palette**: Converge global colors, spacing, typography, and radiuses into CSS variables. Decisively ban generic purple-blue gradients, cyberpunk neon glows, and muddy/dirty yellows. Non-dark interfaces must stay luminous, clean, and crisp (never muddy or dull gray); dark themes use 4-tier surface depths rather than void black. Standardize on engineered Warm Amber feedback and a single hero accent.
 - **Complete 8-State UI Lifecycle**: Full coverage across `Default`, `Hover`, `Active`, `Focus-Visible`, `Skeleton/Loading`, `Empty`, `Error`, and `Disabled`.
 - **GPU Compositing Laws**: Restrict transitions to `transform` and `opacity` with calibrated cubic-bezier curves for silky 60/120fps motion.
 - **Microcopy Economy**: Action buttons strictly maintain **2 to 6 words / characters** (max 8), tags **2 to 4 words**, with `white-space: nowrap;`.
@@ -126,7 +126,7 @@ Before delivering code, verify every item on this checklist:
 29. [ ] Are domain names, IP addresses, and paths fully decoupled from application logic?
 30. [ ] Are dependency lockfiles committed and preserved?
 31. [ ] Are multi-table mutations enclosed in atomic database transactions with rollback on failure?
-32. [ ] Was the UI and micro-interaction polish benchmarked against Awwwards/Webby/FWA standards?
+32. [ ] Does the UI decisively eliminate "AI-slop" purple-blue gradients and muddy yellows? Is the color palette balanced, comfortable (glare-free, luminous in light mode without murkiness), and structured with a single hero accent and surface depth?
 33. [ ] Are styles driven by systematic Design Tokens with complete 8-state UI lifecycles?
 34. [ ] Are external payloads normalized before rendering, and are lifecycle listeners/timers 100% cleaned up?
 35. [ ] Do backend endpoints enforce strict DTO whitelists, and are critical write operations idempotent?

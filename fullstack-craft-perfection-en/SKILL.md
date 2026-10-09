@@ -48,8 +48,9 @@ Before authoring code, establish **Upfront Composition** to decisively eliminate
 
 All interface engineering and micro-interactions must aspire to the caliber of **Awwwards, Webby Awards, and FWA winners**:
 
-1. **Systematic Design Tokens Driven (Zero Magic Numbers)**:
-   - Interface styling must be built upon systematic CSS Variables (palette scales, 4px grid rhythm, fluid typography, glow shadows, and refined bezier easings);
+1. **Systematic Design Tokens Driven & Anti-AI Slop Palette**:
+   - Interface styling must be built upon systematic CSS Variables (palette scales, 4px grid rhythm, fluid typography, ambient shadows, and refined bezier easings);
+   - **Zero AI-Cliche Colors & Visual Ergonomics**: Decisively ban generic purple-blue gradients, cyberpunk neon glows, and muddy/dirty yellows. Non-dark interfaces must stay luminous, clean, and crisp (never muddy or dull gray); dark themes must use 4-tier surface depths rather than flat void black. Standardize on engineered Warm Amber feedback and a single hero accent;
    - Standard reference token pool: [design-tokens.css](./references/design-tokens.css).
 2. **Complete 8-State UI Lifecycle**:
    - Every interactive or asynchronous data component must design for and implement the 8-state closed loop:
@@ -147,7 +148,7 @@ Every code contribution or refactoring task must verify against this 47-item che
 29. [ ] Are domain names, IP addresses, and paths fully decoupled from application logic?
 30. [ ] Are dependency lockfiles committed and preserved?
 31. [ ] Are multi-table mutations enclosed in atomic database transactions with rollback on failure?
-32. [ ] Was the UI and micro-interaction polish benchmarked against Awwwards/Webby/FWA standards?
+32. [ ] Does the UI decisively eliminate "AI-slop" purple-blue gradients and muddy yellows? Is the color palette balanced, comfortable (glare-free, luminous in light mode without murkiness), and structured with a single hero accent and surface depth?
 33. [ ] Are styles driven by systematic Design Tokens with complete 8-state UI lifecycles?
 34. [ ] Are external payloads normalized before rendering, and are lifecycle listeners/timers 100% cleaned up?
 35. [ ] Do backend endpoints enforce strict DTO whitelists, and are critical write operations idempotent?

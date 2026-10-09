@@ -1,41 +1,65 @@
 /**
- * Systematic Design Tokens (Universal Edition)
+ * Systematic Design Tokens (Universal Edition - Anti-AI Slop & Eye Comfort)
  * Awwwards / Webby / FWA Tier Visual & Interaction Foundations
+ * 
+ * Rules Enforced:
+ * 1. Zero AI-cliche purple-blue gradients or cyberpunk neon glows.
+ * 2. Visual ergonomics: Anti-glare contrast, never eye-straining.
+ * 3. Luminous crisp light themes (never muddy or dim) + Deep layered dark themes.
+ * 4. Engineered Warm Amber feedback system (goodbye muddy dirty yellows).
+ * 5. Single hero accent with micro-sheen reflection instead of multi-hue collisions.
  */
 
 :root {
   /* ==========================================================================
-     1. Color Palette (Dark-Mode First, Layered Surfaces & Glow Accents)
+     1. Color Palette: Light Mode (Default: Crisp, Luminous & Pure, Never Muddy)
      ========================================================================== */
-  --color-bg-base: #0a0c10;
-  --color-bg-surface: #12161f;
-  --color-bg-elevated: #1a202c;
-  --color-bg-overlay: rgba(26, 32, 44, 0.75);
-  --color-bg-glass: rgba(18, 22, 31, 0.65);
+  --color-bg-base: #f8fafc;        /* Luminous porcelain white canvas */
+  --color-bg-surface: #ffffff;     /* Pure crisp white card surface */
+  --color-bg-elevated: #ffffff;    /* Elevated modal/dropdown layer */
+  --color-bg-overlay: rgba(15, 23, 42, 0.45);
+  --color-bg-glass: rgba(255, 255, 255, 0.85);
 
-  /* Borders & Dividers */
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-border-default: rgba(255, 255, 255, 0.14);
-  --color-border-highlight: rgba(255, 255, 255, 0.28);
+  /* Borders & Dividers (Soft & Whispering, Never Harsh Razor Strokes) */
+  --color-border-subtle: rgba(15, 23, 42, 0.06);
+  --color-border-default: rgba(15, 23, 42, 0.12);
+  --color-border-highlight: rgba(14, 165, 233, 0.4);
 
-  /* Typography / Text Colors */
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-text-inverse: #020617;
+  /* Typography Colors (Calibrated Contrast: WCAG AA Compliant, No Glare) */
+  --color-text-primary: #0f172a;    /* Deep slate graphite, not harsh #000000 */
+  --color-text-secondary: #475569;  /* Muted balanced slate */
+  --color-text-muted: #94a3b8;      /* Gentle caption tone */
+  --color-text-inverse: #f8fafc;
 
-  /* Brand & Accent Signals */
-  --color-accent-primary: #06b6d4;     /* Electric Cyan */
-  --color-accent-secondary: #6366f1;   /* Neo Indigo */
-  --color-accent-gradient: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
-  --color-accent-glow: rgba(6, 182, 212, 0.35);
+  /* Single Hero Brand Accent (Refined Oceanic Slate / Precision Blue) */
+  --color-accent: #0284c7;          /* Balanced precision blue, never oversaturated */
+  --color-accent-hover: #0369a1;
+  --color-accent-subtle: rgba(2, 132, 199, 0.08); /* Soft ambient wash */
+  --color-accent-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  --color-accent-glow: rgba(2, 132, 199, 0.2);
 
-  /* Feedback States */
-  --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-error-glow: rgba(239, 68, 68, 0.25);
+  /* Feedback System: Calibrated Amber, Emerald & Rose (Goodbye Dirty Yellows) */
+  --color-warning: #d97706;          /* Warm Amber, never muddy mustard */
+  --color-warning-subtle: rgba(217, 119, 6, 0.09);
+  --color-warning-border: rgba(217, 119, 6, 0.24);
+  --color-warning-text: #92400e;
+
+  --color-success: #059669;          /* Deep organic emerald */
+  --color-success-subtle: rgba(5, 150, 105, 0.08);
+  --color-success-border: rgba(5, 150, 105, 0.22);
+  --color-success-text: #065f46;
+
+  --color-error: #e11d48;            /* Soft crimson rose, never bleeding pure red */
+  --color-error-subtle: rgba(225, 29, 72, 0.08);
+  --color-error-border: rgba(225, 29, 72, 0.22);
+  --color-error-text: #9f1239;
+
+  /* Elevation Shadows (Ambient Light Occlusion, Never Dirty Smudges) */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 10px 24px -8px rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 0 18px -2px var(--color-accent-glow);
 
   /* ==========================================================================
      2. Spacing Scale (4px Rhythm System)
@@ -52,7 +76,7 @@
   --space-16: 64px;
 
   /* ==========================================================================
-     3. Typography Scale (Fluid Modular Scale)
+     3. Typography Scale (Fluid Modular Hierarchy)
      ========================================================================== */
   --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -75,6 +99,10 @@
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;
 
+  /* Letter Spacing: Tightened modern typography */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0em;
+
   /* ==========================================================================
      4. Border Radius Tokens
      ========================================================================== */
@@ -86,24 +114,67 @@
   --radius-full: 9999px;
 
   /* ==========================================================================
-     5. Elevation & Box Shadows (Ambient Diffusion + High-Contrast Occlusion)
-     ========================================================================== */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.65);
-  --shadow-glow: 0 0 20px -2px var(--color-accent-glow);
-
-  /* ==========================================================================
-     6. Motion & Animation Physics (GPU Compositing Friendly)
+     5. Motion & Animation Physics (GPU Compositing Friendly)
      ========================================================================== */
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* Premium friction deceleration */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* Micro-bounce tactile snap */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* Friction glide */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* Subtle tactile snap */
 
   --duration-instant: 100ms;
   --duration-fast: 180ms;
   --duration-normal: 260ms;
   --duration-slow: 400ms;
+}
+
+/* ==========================================================================
+   6. Color Palette: Dark Mode (Obsidian Surface Layering, No Void Black)
+   ========================================================================== */
+[data-theme="dark"],
+.dark {
+  --color-bg-base: #090b10;        /* Deep obsidian space, not void #000000 */
+  --color-bg-surface: #11151e;     /* Level 1 elevation surface */
+  --color-bg-elevated: #171d2a;    /* Level 2 elevation for popovers/cards */
+  --color-bg-overlay: rgba(9, 11, 16, 0.75);
+  --color-bg-glass: rgba(17, 21, 30, 0.7);
+
+  /* Borders: Translucent soft boundary, no harsh white strokes */
+  --color-border-subtle: rgba(255, 255, 255, 0.07);
+  --color-border-default: rgba(255, 255, 255, 0.12);
+  --color-border-highlight: rgba(56, 189, 248, 0.35);
+
+  /* Typography Colors (Soft Warm Whites, Anti-Glare) */
+  --color-text-primary: #f1f5f9;    /* Soft luminous slate white */
+  --color-text-secondary: #94a3b8;  /* Balanced silvery slate */
+  --color-text-muted: #64748b;      /* Restrained caption slate */
+  --color-text-inverse: #0f172a;
+
+  /* Single Hero Brand Accent (Precision Azure Sky) */
+  --color-accent: #38bdf8;
+  --color-accent-hover: #0ea5e9;
+  --color-accent-subtle: rgba(56, 189, 248, 0.1);
+  --color-accent-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  --color-accent-glow: rgba(56, 189, 248, 0.28);
+
+  /* Feedback System: Warm Amber & Luminous Feedback */
+  --color-warning: #f59e0b;
+  --color-warning-subtle: rgba(245, 158, 11, 0.1);
+  --color-warning-border: rgba(245, 158, 11, 0.25);
+  --color-warning-text: #fcd34d;
+
+  --color-success: #10b981;
+  --color-success-subtle: rgba(16, 185, 129, 0.1);
+  --color-success-border: rgba(16, 185, 129, 0.25);
+  --color-success-text: #6ee7b7;
+
+  --color-error: #f43f5e;
+  --color-error-subtle: rgba(244, 63, 94, 0.1);
+  --color-error-border: rgba(244, 63, 94, 0.25);
+  --color-error-text: #fda4af;
+
+  /* Dark Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.55), 0 4px 6px -4px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 20px -2px var(--color-accent-glow);
 }
