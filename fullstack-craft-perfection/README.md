@@ -7,12 +7,17 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Architecture-Staff%2FPrincipal-blue.svg?style=flat-square" alt="Architecture" />
   <img src="https://img.shields.io/badge/Design_Tier-Awwwards%20%2F%20Webby-ff4081.svg?style=flat-square" alt="Design" />
-  <img src="https://img.shields.io/badge/Checklist-49_General_%2B_8_WP_Items-00c853.svg?style=flat-square" alt="Checklist" />
+  <img src="https://img.shields.io/badge/Checklist-52_Verification_Items-00c853.svg?style=flat-square" alt="Checklist" />
   <img src="https://img.shields.io/badge/Compatibility-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Windsurf-7928ca.svg?style=flat-square" alt="Compatibility" />
   <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square" alt="License" />
 </p>
 
 ---
+
+> [!IMPORTANT]
+> **Target Ecosystem & Applicable Scope**:
+> This specification applies **EXCLUSIVELY to Web Fullstack (Vue, React, Angular, Next.js, Nuxt, Node.js, PHP, Python, Go, etc.) and Mini-Program (WeChat/WeCom) development environments**.
+> 🚫 **Explicit Non-Scope**: It is **NOT SUITABLE for Native Mobile Apps (iOS Swift/ObjC, Android Kotlin/Java)** or embedded development. Native mobile application constraints (lack of CSS/DOM, binary store reviews, main-thread ANR prevention, ARC/OOM memory barriers, and OS runtime permissions) are fundamentally incompatible with web/mini-program paradigms.
 
 ## 📖 Overview
 
@@ -53,8 +58,7 @@ fullstack-craft-perfection-en/
 │   ├── design-tokens.css             # Industrial-grade CSS variables (palettes, 4px grid, bezier curves)
 │   ├── ui-8-states-guide.md          # World-class UI 8-state interaction lifecycle guide
 │   ├── design-and-ux-craft.md        # Advanced UX: Surface modes, typography physics, craft refusal, microcopy
-│   ├── backend-resilience.md         # Backend resilience: Idempotency, DTO defense, soft deletes, Trace-ID
-│   └── wordpress-craft.md            # [Conditional] WordPress engineering, security, lifecycle & Gutenberg
+│   └── backend-resilience.md         # Backend resilience: Idempotency, DTO defense, soft deletes, Trace-ID
 └── examples/
     └── award-winning-component.html  # Zero-dependency award-winning interactive showcase component
 ```
@@ -96,7 +100,7 @@ flowchart LR
 
 ---
 
-## 📋 Master 49-Item Verification Checklist
+## 📋 Master 52-Item Verification Checklist
 
 Before delivering code, verify every item on this checklist:
 
@@ -150,16 +154,9 @@ Before delivering code, verify every item on this checklist:
 47. [ ] Were all edge cases simulated (nulls, zero, negatives, concurrency, timeouts) with debugging focused on root causes?
 48. [ ] Are all frontend components, forms, tables, modals, and interactive states delivered with complete, polished, responsive CSS styles matching design tokens, eliminating unstyled raw-HTML "naked" deliverables?
 49. [ ] Are mutable operational configurations (titles, banners, switches, fees, limits, contact info, API credentials) decoupled from application code, backed by admin editing capabilities and safe fallback defaults?
-
-### 🧩 Conditional WordPress Specialty Checklist (Active ONLY when WordPress Gate is Triggered)
-50. [ ] [WP Conditional] Is Late Escaping enforced at DOM output via context-specific functions (esc_html, esc_attr, esc_url, esc_textarea, wp_kses_post)?
-51. [ ] [WP Conditional] Are dynamic input parameters sanitized after calling wp_unslash()?
-52. [ ] [WP Conditional] Are Nonces paired with explicit current_user_can() capability authorization checks?
-53. [ ] [WP Conditional] Are database operations parameterized via $wpdb->prepare() with dynamic $wpdb->prefix?
-54. [ ] [WP Conditional] Are activation/deactivation hooks at top-level scope, with destructive uninstallation isolated in uninstall.php?
-55. [ ] [WP Conditional] Does register_rest_route declare a mandatory permission_callback, returning WP_REST_Response / WP_Error?
-56. [ ] [WP Conditional] Are all global functions, classes, constants, and hooks uniquely prefixed with the plugin/theme slug?
-57. [ ] [WP Conditional] Do Gutenberg blocks declare apiVersion: 3 in block.json for editor iframe isolation?
+50. [ ] Are state-mutating async actions guarded by immediate button locking (disabled + spinner) with symmetric release in finally blocks, and are high-frequency events debounced/throttled?
+51. [ ] Do mini-program components enforce dual-thread setData limits (<1MB, no loops), dynamic capsule/safe-area hardware calculation (wx.getMenuButtonBoundingClientRect, env safe area), and zero DOM/window access?
+52. [ ] Did the modification maintain a surgical scope focused exclusively on the user's active request, strictly avoiding unprompted regressive rework or re-doing historical tasks (anti-context-regurgitation)?
 ```
 
 ---

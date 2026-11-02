@@ -3,10 +3,15 @@ name: fullstack-craft-perfection
 description: >-
   通用全栈工程与设计工匠级必备技能。专为 Web 与小程序研发打造（注：不适合移动端原生 App）。只要涉及编写、修改、重构、修复任何代码（PHP、JS、CSS、HTML、API、小程序等）
   或调整前端 UI 样式文案，必须立即自动激活并通读此技能。严格执行全域地毯式排查（严禁“改A漏BCD”）、
-  彻底杜绝“一眼AI”土黄与紫蓝渐变、严禁编写临时Python脚本代改源码，并严格履约49项自查回执（WP专属共57项）。
+  彻底杜绝“一眼AI”土黄与紫蓝渐变、严禁编写临时Python脚本代改源码，并严格履约52项自查回执。
 ---
 
 # 全栈资深架构师与设计总监通用工程技能包 (Fullstack Craft Perfection)
+
+> [!IMPORTANT]
+> **适用范围严格声明 (Target Ecosystem & Scope)**
+> **本规范仅适用于 Web 全栈（Vue、React、Node、PHP、Python、Go 等）与微信/企微小程序研发体系！**
+> 🚫 **明确不适用范围**：本规范**不适合**移动端原生 App（iOS / Android）或底层嵌入式开发。原生 App 缺乏 CSS/DOM 体系，且受二进制商店审核、主线程防卡顿（ANR）、内存管理（ARC/OOM）及系统级动态权限限制，切勿将本规范套用于原生 App。
 
 本技能包专为实现**生产级可靠性与韧性（Staff/Principal Engineer）**与**国际获奖级视觉美学（Awwwards / Webby / FWA Tier）**的双重融合而设计。专为 Web 与小程序研发打造（注：不适合移动端原生 App）。
 
@@ -135,54 +140,11 @@ flowchart LR
 
 ---
 
-## 条件激活生态网关：WordPress 领域严格隔离 (WordPress Domain Quarantine)
+## 阶段四：52项清单自查与合规交付 (Verification & Delivery)
 
-> [!IMPORTANT]
-> **严格领域边界与静默休眠铁律 (Strict Domain Boundary & Dormancy Rule)**
-> WordPress 专属工程规范是一个**深度隔离的条件休眠扩展**。在常规 Web 前端、小程序、现代框架（Vue、React）或通用后端（Laravel、ThinkPHP、FastAPI、Python、Go）项目中，必须**绝对保持静默，严禁任何跨领域污染**。
-> 
-> **双重强制互锁门禁与主动澄清铁律 (Dual-Lock Mandatory Gate & Active Clarification Guard - 缺一不可)：**
-> 
-> 严正申明：**单凭对话内容中出现 `Wordpress`、`wp`、`wp主题`、`wp插件` 等关键词，绝对 100% 不会触发 WordPress 规范！**
-> 必须同时满足 **【① 对话确凿开发目标】+【② 本地文件官方标准头与核心代码指纹】** 双重互锁，才允许激活 WordPress 专属规范（49项通用 + 8项WP专属 = 57项）：
-> 
-> 1. **第一重：对话目标确凿（一票否决参考/对比/异构技术栈）**：
->    - 必须是明确要在 WordPress 运行环境中开发 WP 生态制品；
->    - 凡是带有“参考 WP”、“类似 wp 插件”、“模仿 WordPress 后台”、“从 WP 迁移”、“对比 WP”、“用 Vue/Laravel/ThinkPHP 实现类似 WP 功能”等参考、对比、迁移或指定了非 WP 技术栈的，**直接判定为未命中**！
-> 
-> 2. **第二重：复合特征交叉印证（严禁仅凭单一行注释盲判）**：
->    - **严禁单一注释判定**：单纯一行 `Plugin Name:` 或 `Theme Name:` **绝不能**单独作为触发依据（防止其他 CMS 或自研模板偶发同名注释导致误判）；
->    - 必须是**【头部元数据声明】与【WordPress 专有运行时硬核 API/常量】双重交叉印证**，二者必须同时满足：
->      - **插件项目（必须同时具备①与②）**：
->        ① 包含插件声明头：`/* Plugin Name: ... */`；
->        ② 且必须同时包含 WordPress 独家代码常量或核心注册函数：`defined('ABSPATH')`、`defined('WPINC')`、`register_activation_hook`、`plugin_dir_path`、`add_action`，或包含官方插件目录规范的 `readme.txt`（内含 `=== Plugin Name ===` 和 `Tested up to:`）；
->      - **主题项目（必须同时具备①与②）**：
->        ① 根目录 `style.css` 声明头：`/* Theme Name: ... */`；
->        ② 且模板/`functions.php` 中必须实际调用了 WordPress 专有核心钩子：`wp_head()`、`wp_footer()`、`wp_enqueue_scripts()`、`get_header()`；
->      - **现代区块/区块主题（官方权威 Schema 域名绑定）**：
->        根目录 `theme.json` 或 `block.json` 中必须显式声明了 WordPress 基金会官方权威 Schema 域名：`https://schemas.wp.org/...`（此域名全球独有，任何其他系统绝对无法伪造）；
->    - 若项目仅有 `Plugin Name:` 或 `Theme Name:` 注释，但代码中没有上述任何一个 WordPress 核心专有函数/常量，**直接判定为非 WP 项目，坚决不触发**！
-> 
-> 3. **第三重守卫：模糊意图强制主动提问铁律 (Mandatory Active Clarification on Ambiguity)**：
->    - **严禁盲猜与擅自脑补**：当用户的开发意图不明确、技术栈存在歧义、或对话中泛泛提及了 WordPress 关键词但无法 100% 确认是否真正针对 WordPress 运行环境开发时，**绝对严禁 AI 自行假设、盲猜或擅自套用 WordPress 规范**！
->    - **必须主动提问**：AI 必须立即暂停猜测，**主动向用户提问确认**：“请问您当前是针对 WordPress 运行环境进行主题/插件开发，还是仅作逻辑参考或开发其他技术栈？”
->    - **未确认前绝对保持休眠**：在获得用户明确的肯定答复之前，WordPress 规范必须 100% 保持休眠状态，严格按通用全栈规范执行，坚决杜绝误判与跨领域代码污染。
-> 
-> ---
-> 
-> ### 特殊场景：从零初始化空目录新建（零代码场景）
-> - 若工作区为空目录且从零开始新建，由于尚无文件和代码，**必须满足**：用户下达了极具确定性的创建指令（如“请在当前空目录从零初始化一个 WordPress 插件项目”），且确认该制品将部署至 WordPress 站点中。
-> - 一旦工作区中存在任何既有业务代码文件，**必须强制执行官方声明头与核心哨兵的物理查验**！
-> 
-> 🚫 **零污染红线禁令**：未满足双重互锁门禁时，WordPress 模块绝对保持休眠。**严禁在非 WordPress 项目中应用任何 WP 专有转义函数（`esc_html`）、数据库单例（`$wpdb`）、生命周期钩子或 Nonce 校验机制！**
+每次编写或修改代码后，必须严格对照 52 项检查清单完成自查，并在回复末尾附带标准合规回执：
 
----
-
-## 阶段四：49项清单自查与合规交付 (Verification & Delivery)
-
-每次编写或修改代码后，必须严格对照 49 项检查清单完成自查，并在回复末尾附带标准合规回执：
-
-### 49 项自查清单
+### 52 项自查清单
 1. [ ] 是否通过调用链精准追踪到了功能对应的实际生效源码，而非仅靠泛关键词盲改？
 2. [ ] 是否遵守了“零本地 PHP 运行”的铁律（如适用）？
 3. [ ] 第三方 API 调用（接口端点URL、请求参数、鉴权签名及返回字段层级）是否 100% 对齐官方最新真实文档，杜绝凭空瞎编虚构？
@@ -232,17 +194,9 @@ flowchart LR
 47. [ ] 是否进行了全维度极值边界推演（空值/0/负数/并发/超时），排查跨模块问题是否直击根因而非表面打补丁？
 48. [ ] 前端组件、表单、表格、弹窗与交互状态是否同步交付了完整精致的生产级 CSS 样式与 Design Token 适配，彻底杜绝了无样式的“裸奔/半成品骨架”交付？
 49. [ ] 业务运营可变量（标题、Logo、Banner、客服二维码、费率、开关、公告、API凭据）是否与源码解耦，支持后台可视化配置并配备了代码级安全兜底默认值？
-
-### 条件激活：WordPress 专属审计清单（第 50~57 项，仅在触发 WordPress 门禁时执行）
-50. [ ] [WP条件] 输出至 DOM 是否在最后一刻严格按上下文使用专用转义函数（`esc_html`、`esc_attr`、`esc_url`、`esc_textarea`、`wp_kses_post`）？
-51. [ ] [WP条件] 动态外部入参是否在调用 `wp_unslash()` 后才进行对应清洗（`sanitize_*`）？
-52. [ ] [WP条件] 所有引发状态变更的操作，是否做到了 Nonce 校验与 `current_user_can()` 权限校验双重配合？
-53. [ ] [WP条件] 所有数据库交互是否严格通过 `$wpdb->prepare()` 参数化绑定，并动态拼接 `$wpdb->prefix`？
-54. [ ] [WP条件] 激活/停用钩子是否在插件主文件最外层顶层注册，破坏性清理是否隔离在 `uninstall.php` 中并校验 `WP_UNINSTALL_PLUGIN`？
-55. [ ] [WP条件] `register_rest_route` 是否强制声明了 `permission_callback`，且接口返回标准的 `WP_REST_Response` / `WP_Error` 对象？
-56. [ ] [WP条件] 所有全局函数、类名、常量、选项名是否均携带了专属唯一前缀（Prefixing）防冲突？
-57. [ ] [WP条件] Gutenberg 区块是否在 `block.json` 中声明了 `apiVersion: 3` 以适配 iframe 编辑器沙箱？
-
+50. [ ] 异步写操作是否在点击瞬间即刻上锁（disabled + 内联Spinner），并在 finally 块中对称释放？高频事件是否已配置防抖（Debounce）或节流（Throttle）？
+51. [ ] 小程序代码是否遵守了双线程 setData 频度与尺寸红线（严禁循环调用、单次<1MB、非渲染变量不入 data）、全面屏与胶囊动态避让（wx.getMenuButtonBoundingClientRect、env安全区）及零 DOM/Window 禁令？
+52. [ ] 本次改动是否严格保持了当次任务的外科手术式精准聚焦，坚决杜绝了受历史摘要诱导而回溯重做已交付历史功能（反反刍、防越界）？
 ---
 
 ## 配套工程资产速查 (Bundled Assets)
@@ -250,5 +204,4 @@ flowchart LR
 * **UI 8 态实操手册**：[ui-8-states-guide.md](./references/ui-8-states-guide.md)
 * **高级设计与交互精工指南**：[design-and-ux-craft.md](./references/design-and-ux-craft.md)
 * **后端弹性架构指南**：[backend-resilience.md](./references/backend-resilience.md)
-* **WordPress 架构与安全指南** *(条件激活)*：[wordpress-craft.md](./references/wordpress-craft.md)
 * **获奖级组件示范**：[award-winning-component.html](./examples/award-winning-component.html)

@@ -5,10 +5,15 @@ description: >-
   MUST be activated and read immediately whenever authoring, modifying, editing, refactoring,
   debugging, reviewing, or styling ANY code (PHP, JS/TS, Python, CSS/HTML, SQL, APIs, UI).
   Enforces zero-AI-slop palettes (no muddy yellows or purple gradients), full-spectrum synchronization
-  (strictly eliminating "updating A while missing BCD"), in-place native edits, and the 49-item audit checklist (57 with WP).
+  (strictly eliminating "updating A while missing BCD"), in-place native edits, and the master 52-item audit checklist.
 ---
 
 # Fullstack Craft Perfection (Universal Engineering & Design Skill Package)
+
+> [!IMPORTANT]
+> **Target Ecosystem & Applicable Scope**:
+> This specification applies **EXCLUSIVELY to Web Fullstack and Mini-Program (WeChat/WeCom) development environments**.
+> 🚫 **Explicit Non-Scope**: It is **NOT SUITABLE for Native Mobile Apps (iOS Swift/ObjC, Android Kotlin/Java)** or embedded development. Native mobile application constraints (lack of CSS/DOM, binary store reviews, main-thread ANR prevention, ARC/OOM memory barriers, and OS runtime permissions) are fundamentally incompatible with web/mini-program paradigms.
 
 This skill package is engineered to fuse **production-grade resilience (Staff/Principal Engineer tier)** with **world-class visual craft and aesthetics (Awwwards / Webby / FWA Tier)**. It applies universally across Web and Mini-Programs (Note: Not suitable for native iOS/Android apps).
 
@@ -20,7 +25,7 @@ This skill package is engineered to fuse **production-grade resilience (Staff/Pr
 flowchart LR
     A["Phase 1: Architecture & Line Budget"] --> B["Phase 2: Design Tokens & Visual Craft"]
     B --> C["Phase 3: Defensive Engineering & Resilience"]
-    C --> D["Phase 4: 49-Item Audit & Delivery Contract"]
+    C --> D["Phase 4: 52-Item Audit & Delivery Contract"]
 ```
 
 ---
@@ -138,54 +143,11 @@ All interface engineering and micro-interactions must aspire to the caliber of *
 
 ---
 
-## Conditional Ecosystem Gate: WordPress Domain Quarantine
+## Phase 4: 52-Item Audit & Delivery Contract
 
-> [!IMPORTANT]
-> **Strict Domain Boundary & Dormancy Rule**
-> The WordPress Engineering Standard is an **isolated, dormant extension**. It must **NEVER** pollute or cross-contaminate generic web applications, modern frontend frameworks (React, Vue), or standard backend frameworks (Laravel, Symfony, FastAPI, Python, Go).
-> 
-> **Dual-Lock Mandatory Gate & Active Clarification Guard (All Dimensions Must Interlock):**
-> 
-> Explicit Policy: **Merely mentioning `WordPress`, `wp`, `wp theme`, or `wp plugin` in conversation will NEVER activate the WordPress standard on its own!**
-> The WordPress specialty extension (49 generic + 8 WP = 57 items) activates IF AND ONLY IF both locks are simultaneously verified:
-> 
-> 1. **Lock 1: Unambiguous Conversation Target (Excluding Reference/Comparison/Alternative Stacks)**:
->    - The user must explicitly direct development *within* the WordPress runtime environment;
->    - Phrasing such as "reference WordPress", "similar to a WP plugin", "inspired by WP admin", "migrate from WP", "compare with WP", or specifying a non-WP stack ("build a WP-like feature using Vue/React/Laravel/Django") **immediately disqualifies Lock 1**!
-> 
-> 2. **Lock 2: Composite Feature Cross-Verification (Ban on Single Comment-Line Matching)**:
->    - **Ban on Single Comment-Line Matching**: Merely finding a line `Plugin Name:` or `Theme Name:` **CANNOT** trigger WordPress mode alone (preventing other CMSs or in-house templates from accidental collisions);
->    - Verification requires the **simultaneous cross-validation of official metadata headers AND WordPress exclusive runtime APIs/constants**:
->      - **Plugin Projects (Must satisfy both ① and ②)**:
->        ① Contains plugin header comment: `/* Plugin Name: ... */`;
->        ② AND must simultaneously invoke WordPress-exclusive runtime tokens: `defined('ABSPATH')`, `defined('WPINC')`, `register_activation_hook`, `plugin_dir_path`, `add_action`, or official `readme.txt` (containing `=== Plugin Name ===` and `Tested up to:`);
->      - **Theme Projects (Must satisfy both ① and ②)**:
->        ① `style.css` contains theme header: `/* Theme Name: ... */`;
->        ② AND template files or `functions.php` must genuinely invoke WordPress-exclusive hooks: `wp_head()`, `wp_footer()`, `wp_enqueue_scripts()`, `get_header()`;
->      - **Block Themes / Gutenberg Blocks (Cryptographic Schema Binding)**:
->        Root `theme.json` or `block.json` must explicitly bind the official WordPress Foundation URI: `https://schemas.wp.org/...` (globally unique domain, impossible for other CMSs to forge);
->    - If a project merely contains a `Plugin Name:` comment but lacks any of these core WordPress runtime constants/functions, **it is decisively classified as a non-WP project and remains dormant**!
-> 
-> 3. **Lock 3: Mandatory Active Clarification for Ambiguous Intent (Zero Guesswork Policy)**:
->    - **Ban on Speculative Assumptions**: When user intent is ambiguous, the technical stack is unclear, or WordPress keywords are mentioned loosely without 100% certainty that the target runtime is WordPress, **making speculative assumptions or silently applying WordPress rules is strictly forbidden**!
->    - **Must Actively Clarify**: The agent MUST pause immediately and **actively ask the user**: *"Are you developing a plugin/theme specifically for the WordPress runtime environment, or is this for a different stack / purely for reference?"*
->    - **Strictly Dormant Until Confirmed**: Until the user explicitly confirms that the project is for WordPress development, the WordPress extension standard remains 100% dormant, executing under the universal 49-item standard to prevent any cross-domain contamination.
-> 
-> ---
-> 
-> ### Clean-Slate Empty Directory Exception
-> - When and only when starting inside a completely empty directory from scratch, physical files do not exist yet. In this rare case, the user must issue a decisive initialization directive (e.g., "Scaffold a brand-new WordPress plugin in this empty workspace") confirmed for WP deployment.
-> - The moment any existing files exist, **Lock 2 (Official Headers & Sentinels)** is strictly and uncompromisingly enforced.
-> 
-> 🚫 **Zero-Contamination Ban**: If the dual-lock gate is not 100% satisfied, the WordPress module remains strictly dormant. Applying WordPress-specific escaping (`esc_html`), database singletons (`$wpdb`), action hooks, or Nonce mechanisms to non-WordPress projects is strictly forbidden.
+Every code contribution or refactoring task must verify against this 52-item checklist and conclude with a formal verification receipt:
 
----
-
-## Phase 4: 49-Item Audit & Delivery Contract
-
-Every code contribution or refactoring task must verify against this 49-item checklist and conclude with a formal verification receipt:
-
-### Master 49-Item Checklist
+### Master 52-Item Checklist
 1. [ ] Was the runtime execution path traced directly to active source files rather than relying on speculative keyword searches?
 2. [ ] Was the "No Local PHP Execution" rule respected (if applicable)?
 3. [ ] Are third-party API calls (endpoints, parameters, headers, signatures, response schemas) 100% aligned with official documentation with zero hallucinations?
@@ -235,17 +197,9 @@ Every code contribution or refactoring task must verify against this 49-item che
 47. [ ] Were all edge cases simulated (nulls, zero, negatives, concurrency, timeouts) with debugging focused on root causes?
 48. [ ] Are all frontend components, forms, tables, modals, and interactive states delivered with complete, polished, responsive CSS styles matching design tokens, eliminating unstyled raw-HTML "naked" deliverables?
 49. [ ] Are mutable operational configurations (titles, banners, switches, fees, limits, contact info, API credentials) decoupled from application code, backed by admin editing capabilities and safe fallback defaults?
-
-### Conditional WordPress Specialty Checklist (Items 50–57, Active ONLY when WordPress Gate is Triggered)
-50. [ ] *[WP Conditional]* Is Late Escaping enforced at the moment of DOM rendering using context-specific functions (`esc_html`, `esc_attr`, `esc_url`, `esc_textarea`, `wp_kses_post`)?
-51. [ ] *[WP Conditional]* Are all dynamic input parameters sanitized after invoking `wp_unslash()`?
-52. [ ] *[WP Conditional]* Are Nonces paired with explicit `current_user_can()` authorization checks on all state-mutating requests?
-53. [ ] *[WP Conditional]* Are all database operations parameterized via `$wpdb->prepare()` with dynamic `$wpdb->prefix`?
-54. [ ] *[WP Conditional]* Are activation/deactivation hooks registered at top-level scope, with destructive data cleanup isolated in `uninstall.php`?
-55. [ ] *[WP Conditional]* Does `register_rest_route` declare a mandatory `permission_callback`, and do endpoints return standard `WP_REST_Response` / `WP_Error` objects?
-56. [ ] *[WP Conditional]* Are all global entities (functions, classes, constants, options, hooks) uniquely prefixed with the plugin/theme slug?
-57. [ ] *[WP Conditional]* Do Gutenberg blocks declare `apiVersion: 3` in `block.json` for editor iframe isolation?
-
+50. [ ] Are state-mutating async actions guarded by immediate button locking (disabled + spinner) with symmetric release in finally blocks, and are high-frequency events debounced/throttled?
+51. [ ] Do mini-program components enforce dual-thread setData limits (<1MB, no loops), dynamic capsule/safe-area hardware calculation (wx.getMenuButtonBoundingClientRect, env safe area), and zero DOM/window access?
+52. [ ] Did the modification maintain a surgical scope focused exclusively on the user's active request, strictly avoiding unprompted regressive rework or re-doing historical tasks (anti-context-regurgitation)?
 ---
 
 ## Bundled Engineering Assets
@@ -254,5 +208,4 @@ Every code contribution or refactoring task must verify against this 49-item che
 * **UI 8-State Lifecycle Specification**: [ui-8-states-guide.md](./references/ui-8-states-guide.md)
 * **Design & UX Craft Guide**: [design-and-ux-craft.md](./references/design-and-ux-craft.md)
 * **Backend Resilience & Architecture Guide**: [backend-resilience.md](./references/backend-resilience.md)
-* **WordPress Engineering & Security Guide** *(Conditional)*: [wordpress-craft.md](./references/wordpress-craft.md)
 * **Award-Winning Interactive Showcase**: [award-winning-component.html](./examples/award-winning-component.html)

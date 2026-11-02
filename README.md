@@ -7,12 +7,17 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Architecture-Staff%2FPrincipal-blue.svg?style=flat-square" alt="Architecture" />
   <img src="https://img.shields.io/badge/Design_Tier-Awwwards%20%2F%20Webby-ff4081.svg?style=flat-square" alt="Design" />
-  <img src="https://img.shields.io/badge/Checklist-49项通用%2B8项WP专属-00c853.svg?style=flat-square" alt="Checklist" />
+  <img src="https://img.shields.io/badge/Checklist-52_Verification_Items-00c853.svg?style=flat-square" alt="Checklist" />
   <img src="https://img.shields.io/badge/Compatibility-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Windsurf-7928ca.svg?style=flat-square" alt="Compatibility" />
   <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square" alt="License" />
 </p>
 
 ---
+
+> [!IMPORTANT]
+> **适用范围严格声明 (Target Ecosystem & Scope)**
+> **本规范仅适用于 Web 全栈（Vue、React、Angular、Next.js、Nuxt、Node.js、PHP、Python、Go 等）与 微信/企微小程序 研发体系！**
+> 🚫 **明确不适用范围**：本规范**不适用于**移动端原生 App（iOS Swift/ObjC、Android Kotlin/Java）或底层嵌入式开发。由于原生 App 的渲染体系（无 CSS/DOM）、硬二进制编译分发（App Store 审核）、主线程防卡顿（ANR）、内存泄漏（ARC/OOM）及系统级动态权限机制与 Web/小程序存在根本性差异，切勿将本规范强行套用于原生 App 开发。
 
 ## 📖 项目简介 (Overview)
 
@@ -53,8 +58,7 @@ fullstack-craft-perfection/
 │   ├── design-tokens.css             # 工业级 CSS 变量体系 (色彩梯阶、4px网格、贝塞尔曲线)
 │   ├── ui-8-states-guide.md          # 国际获奖级 UI 交互 8 态生命周期闭环指南
 │   ├── design-and-ux-craft.md        # 场景模式、排版换行美学、反套路禁忌与小程序工程铁律
-│   ├── backend-resilience.md         # 后端弹性架构：幂等性、DTO隔离、软删除、Trace-ID实战
-│   └── wordpress-craft.md            # [条件激活] WordPress 架构、晚期转义、权限与Gutenberg深水区规范
+│   └── backend-resilience.md         # 后端弹性架构：幂等性、DTO隔离、软删除、Trace-ID实战
 └── examples/
     └── award-winning-component.html  # 零依赖自洽的获奖级交互组件示范代码
 ```
@@ -96,9 +100,9 @@ flowchart LR
 
 ---
 
-## 📋 49 项全生命周期自查清单 (49-Item Master Checklist)
+## 📋 52 项全生命周期自查清单 (52-Item Master Checklist)
 
-每次交付代码前，对照以下 49 项标准自查，杜绝违规交付：
+每次交付代码前，对照以下 52 项标准自查，杜绝违规交付：
 
 ```markdown
 1.  [ ] 是否通过调用链精准追踪到了功能对应的实际生效源码，而非仅靠泛关键词盲改？
@@ -150,16 +154,9 @@ flowchart LR
 47. [ ] 是否进行了全维度极值边界推演（空值/0/负数/并发/超时），排查跨模块问题是否直击根因而非表面打补丁？
 48. [ ] 前端组件、表单、表格、弹窗与交互状态是否同步交付了完整精致的生产级 CSS 样式与 Design Token 适配，彻底杜绝了无样式的“裸奔/半成品骨架”交付？
 49. [ ] 业务运营可变量（标题、Logo、Banner、客服二维码、费率、开关、公告、API凭据）是否与源码解耦，支持后台可视化配置并配备了代码级安全兜底默认值？
-
-### 🧩 条件激活：WordPress 专属自查清单（仅当触发 WordPress 门禁时执行）
-50. [ ] [WP条件] 输出至 DOM 是否在最后一刻严格按上下文使用专用转义函数（esc_html、esc_attr、esc_url、esc_textarea、wp_kses_post）？
-51. [ ] [WP条件] 动态外部入参是否在调用 wp_unslash() 后才进行对应清洗（sanitize_*）？
-52. [ ] [WP条件] 所有引发状态变更的操作，是否做到了 Nonce 校验与 current_user_can() 权限校验双重配合？
-53. [ ] [WP条件] 所有数据库交互是否严格通过 $wpdb->prepare() 参数化绑定，并动态拼接 $wpdb->prefix？
-54. [ ] [WP条件] 激活/停用钩子是否在插件主文件最外层顶层注册，破坏性清理是否隔离在 uninstall.php 中并校验 WP_UNINSTALL_PLUGIN？
-55. [ ] [WP条件] register_rest_route 是否强制声明了 permission_callback，且接口返回标准的 WP_REST_Response / WP_Error 对象？
-56. [ ] [WP条件] 所有全局函数、类名、常量、选项名是否均携带了专属唯一前缀（Prefixing）防冲突？
-57. [ ] [WP条件] Gutenberg 区块是否在 block.json 中声明了 apiVersion: 3 以适配 iframe 编辑器沙箱？
+50. [ ] 异步写操作是否在点击瞬间即刻上锁（disabled + 内联Spinner），并在 finally 块中对称释放？高频事件是否已配置防抖（Debounce）或节流（Throttle）？
+51. [ ] 小程序代码是否遵守了双线程 setData 频度与尺寸红线（严禁循环调用、单次<1MB、非渲染变量不入 data）、全面屏与胶囊动态避让（wx.getMenuButtonBoundingClientRect、env安全区）及零 DOM/Window 禁令？
+52. [ ] 本次改动是否严格保持了当次任务的外科手术式精准聚焦，坚决杜绝了受历史摘要诱导而回溯重做已交付历史功能（反反刍、防越界）？
 ```
 
 ---
