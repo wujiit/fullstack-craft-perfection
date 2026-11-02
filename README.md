@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Architecture-Staff%2FPrincipal-blue.svg?style=flat-square" alt="Architecture" />
   <img src="https://img.shields.io/badge/Design_Tier-Awwwards%20%2F%20Webby-ff4081.svg?style=flat-square" alt="Design" />
-  <img src="https://img.shields.io/badge/Checklist-47_Verification_Items-00c853.svg?style=flat-square" alt="Checklist" />
+  <img src="https://img.shields.io/badge/Checklist-49项通用%2B8项WP专属-00c853.svg?style=flat-square" alt="Checklist" />
   <img src="https://img.shields.io/badge/Compatibility-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Windsurf-7928ca.svg?style=flat-square" alt="Compatibility" />
   <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square" alt="License" />
 </p>
@@ -22,7 +22,7 @@
 
 ---
 
-## 🎯 核心解决的 11 大 AI 编码痛点
+## 🎯 核心解决的 13 大 AI 编码痛点
 
 | # | AI 典型缺陷 / 顽疾 | 本体系给出的硬性工程解法 |
 |---|---|---|
@@ -37,6 +37,8 @@
 | 9 | **过度追求局部最佳** | **超越局部短函数，全局系统自洽**：推演并发、事务、降级与优雅停机因果链。 |
 | 10 | **Debug 困难** | **Trace-ID 全链路追踪 + 根因直击**：严禁盲目加 if 或空套 try-catch 掩盖报错。 |
 | 11 | **隐性 Bug 与假阳性** | **全维度极值推演 (Null/0/负数/溢出) + 状态机单向流转 + 并发绝对幂等 + 行级越权防护**。 |
+| 12 | **前端裸奔交付（只写骨架不写样式）** | **功能与样式同频交付（严禁裸奔交付）**：写完功能必须同步提供原子级、生产就绪的 CSS/WXSS 美化与响应式样式，杜绝丑陋毛坯房。 |
+| 13 | **运营配置直接写死在代码中** | **后台动态配置解耦（严禁配置写死代码）**：标题、Logo、联系方式、公告、开关、费率等所有运营可变量，必须提供后台设置界面与数据库持久化，配合代码级安全兜底默认值，严禁让用户修改代码。 |
 
 ---
 
@@ -50,7 +52,9 @@ fullstack-craft-perfection/
 ├── references/                       # 架构与设计规范落地指南
 │   ├── design-tokens.css             # 工业级 CSS 变量体系 (色彩梯阶、4px网格、贝塞尔曲线)
 │   ├── ui-8-states-guide.md          # 国际获奖级 UI 交互 8 态生命周期闭环指南
-│   └── backend-resilience.md         # 后端弹性架构：幂等性、DTO隔离、软删除、Trace-ID实战
+│   ├── design-and-ux-craft.md        # 场景模式、排版换行美学、反套路禁忌与小程序工程铁律
+│   ├── backend-resilience.md         # 后端弹性架构：幂等性、DTO隔离、软删除、Trace-ID实战
+│   └── wordpress-craft.md            # [条件激活] WordPress 架构、晚期转义、权限与Gutenberg深水区规范
 └── examples/
     └── award-winning-component.html  # 零依赖自洽的获奖级交互组件示范代码
 ```
@@ -63,7 +67,7 @@ fullstack-craft-perfection/
 flowchart LR
     A["阶段一：顶层架构与行数预算"] --> B["阶段二：设计系统与动效美学"]
     B --> C["阶段三：防御性工程与高可用"]
-    C --> D["阶段四：47项清单自查与合规交付"]
+    C --> D["阶段四：49项清单自查与合规交付"]
 ```
 
 ### 阶段一：顶层架构与行数预算 (Architecture & Line Budget)
@@ -71,12 +75,14 @@ flowchart LR
 - **语言包与静态配置显式豁免**：多语言翻译文件（如 `.po`, `.pot`, `.mo`、i18n JSON 字典）、静态表结构列配置（Column Schema）与第三方依赖完全不受行数限制。
 - **前置架构组合拆分**：前端页面作为纯容器装配层，子组件与 Hooks 独立；后端 Controller 调度、Service 核心下沉。
 - **奥卡姆剃刀 (KISS & Anti-YAGNI)**：禁止为简单功能构建多层抽象工厂或空转包装类，每一行代码必须有当下明确业务价值。
+- **后台动态配置解耦**：运营可变量（标题、Logo、Banner、客服二维码、费率、开关等）存入数据库配置表，后台提供设置界面与安全代码兜底，杜绝写死在业务代码中。
 
 ### 阶段二：设计系统与获奖级美学 (Design System & Craft)
-- **Design Tokens 驱动与杜绝“一眼 AI”套路色彩**：全局色彩、间距、字阶全部收敛于 CSS 变量。坚决禁绝老套紫蓝大渐变、赛博霓虹发光与浑浊脏土黄；非暗黑模式下界面必须保持通透、明亮、清爽（象牙白/冷瓷白基底与精致纯白卡片，**绝不发暗发脏**）；暗黑模式通过深空黑曜石表面层级（Base $\to$ Surface $\to$ Elevated $\to$ Overlay）拉开纵深，拒绝死黑一块；警告色全面升级为微透琥珀暖金（Warm Amber）系统；全站严格践行“90% 克制中性色底蕴 + 10% 单英雄重点色”。
+- **Design Tokens 驱动与杜绝“一眼 AI”套路色彩**：全局色彩、间距、字阶全部收敛于 CSS 变量。坚决禁绝老套紫蓝大渐变、赛博霓虹发光与浑浊脏土黄；非暗黑模式下界面必须保持通透、明亮、清爽（象牙白/冷瓷白基底与精致纯白卡片，**绝不发暗发脏**）；暗黑模式通过深空黑曜石表面层级（Base $\to$ Surface $\to$ Elevated $\to$ Overlay）拉开纵深，拒绝死黑一块；警告色全面升级为微透琥珀暖金（Warm Amber）系统；全站严格践行“90% 克制中性色底蕴 + 10% 单英雄重点色”；严禁在 body 或主容器上通铺大面积渐变背景，渐变仅限微型标签、1px高光边框或主按钮微光泽。
+- **功能与样式同频交付（严禁裸奔交付）**：写完功能必须同步交付精致、对齐 Design Token 的生产级 CSS/WXSS 样式，杜绝无美化的骨架半成品。
 - **UI 交互 8 态闭环**：`Default`、`Hover`、`Active`、`Focus-Visible`、`Loading/Skeleton`、`Empty`、`Error`、`Disabled` 全态覆盖。
 - **动效 GPU 合成层铁律**：动效与过渡严格限定于 `transform` 与 `opacity`，贝塞尔曲线精准调校，全端满帧 60/120fps。
-- **微文案克制 (Microcopy)**：常规操作按钮保持 **2~6 个字**（上限 8 字），标签 **2~4 个字**，强制配置 `white-space: nowrap;` 防折行。
+- **微文案克制与移动/小程序适配 (Microcopy & Mini-Programs)**：常规操作按钮保持 **2~6 个字**（上限 8 字），标签 **2~4 个字**，强制配置 `white-space: nowrap;` 防折行。小程序端严格落实 $750\text{rpx}$、底部安全区 `env(safe-area-inset-bottom)`、胶囊避让、零 DOM 与 `setData` 字段预算。
 - **严禁滥用 Emoji**：禁止使用系统原生 Emoji 充当功能图标（防跨端渲染割裂与廉价感）；支持标准 SVG、阿里 Iconfont (`iconfont icon-xxx`)、Remix Icon、FontAwesome 及后台外链自定义注入。
 
 ### 阶段三：防御性工程与高可用系统韧性 (Defensive Engineering)
@@ -90,9 +96,9 @@ flowchart LR
 
 ---
 
-## 📋 47 项全生命周期自查清单 (47-Item Master Checklist)
+## 📋 49 项全生命周期自查清单 (49-Item Master Checklist)
 
-每次交付代码前，对照以下 47 项标准自查，杜绝违规交付：
+每次交付代码前，对照以下 49 项标准自查，杜绝违规交付：
 
 ```markdown
 1.  [ ] 是否通过调用链精准追踪到了功能对应的实际生效源码，而非仅靠泛关键词盲改？
@@ -115,7 +121,7 @@ flowchart LR
 18. [ ] 文件是否全部保存为 UTF-8 无 BOM 编码，无隐藏输出字符？
 19. [ ] 敏感文件（如 .env）是否已加入 .gitignore 保护不被提交？
 20. [ ] API 接口是否统一返回 {"code", "msg", "data"} 格式及 JSON 响应头？
-21. [ ] 前端 UI 是否适配移动端与小程序，按钮与标签文案是否克制（常规2~6字，上限8字，防折行撑爆容器）？
+21. [ ] 前端 UI 是否完美适配移动端与小程序（rpx / 全面屏安全区 / 胶囊避让 / 零DOM），按钮与标签文案是否克制精炼（常规2~6字，上限8字，white-space: nowrap 防折行撑爆容器）？
 22. [ ] 文件/cURL 句柄使用完毕后是否均已显式关闭释放？
 23. [ ] 处理中文或多字节字符串是否全部使用 mb_* 系列函数？
 24. [ ] 定时任务与异步作业是否具备幂等性与运行锁保护？
@@ -126,7 +132,7 @@ flowchart LR
 29. [ ] 域名、IP、路径等配置是否完全从代码中解耦提取？
 30. [ ] 第三方依赖包的 Lock 锁文件是否已被完整保留？
 31. [ ] 涉及多表变更的操作是否已包裹在数据库事务中，且异常时安全回滚？
-32. [ ] 前端 UI 是否彻底杜绝了“一眼 AI”的紫蓝大渐变与浑浊土黄？配色是否合理舒适（不刺眼、非暗黑模式下不发暗发脏），具备单重点色与高级表面层次？
+32. [ ] 前端 UI 是否彻底杜绝了“一眼 AI”的紫蓝大渐变与浑浊土黄？是否严禁大面积渐变背景，仅将渐变克制用于微型点缀（小标签、1px边框、主按钮微光泽）？配色是否合理舒适，具备单重点色与高级表面层次？
 33. [ ] 样式是否基于系统化 Design Tokens 构建（零魔数），交互组件是否具备完整的 8 态生命周期闭环？
 34. [ ] 外部数据注入视图前是否进行了 Data Normalizer 防崩清洗，事件监听/定时器/第三方实例是否在生命周期注销时 100% 释放？
 35. [ ] 后端接口是否通过强类型 DTO 白名单隔离过滤入参，关键写操作是否在服务端实现了绝对幂等？
@@ -139,9 +145,21 @@ flowchart LR
 42. [ ] 是否完成了彻底斩断式重构，100% 清理了废弃死代码，杜绝新旧方案混杂与相互牵制？
 43. [ ] 调用的 API 与语法是否与当前环境及依赖版本完全匹配，杜绝使用废弃 API 与编造幻觉函数？
 44. [ ] 是否具备宏观全局架构观，复用了既有公共设施，确保改动与整个系统的分层和生命周期高度自洽？
-45. [ ] 修改公共方法/组件/字段时，是否反向检索了所有调用方并评估了“爆炸半径”，杜绝引入副作用？
+45. [ ] 修改功能/文案时是否进行了全域地毯式排查并全量原子同步修改？是否已 100% 覆盖系统中所有同类页面与调用点（BCD端），绝无“改A漏BCD”？公共代码修改是否评估了爆炸半径？
 46. [ ] 编写代码前是否进行了“前置资产查重”，优先复用既有组件/工具，确保业务逻辑为单一真实来源（SSOT）？
 47. [ ] 是否进行了全维度极值边界推演（空值/0/负数/并发/超时），排查跨模块问题是否直击根因而非表面打补丁？
+48. [ ] 前端组件、表单、表格、弹窗与交互状态是否同步交付了完整精致的生产级 CSS 样式与 Design Token 适配，彻底杜绝了无样式的“裸奔/半成品骨架”交付？
+49. [ ] 业务运营可变量（标题、Logo、Banner、客服二维码、费率、开关、公告、API凭据）是否与源码解耦，支持后台可视化配置并配备了代码级安全兜底默认值？
+
+### 🧩 条件激活：WordPress 专属自查清单（仅当触发 WordPress 门禁时执行）
+50. [ ] [WP条件] 输出至 DOM 是否在最后一刻严格按上下文使用专用转义函数（esc_html、esc_attr、esc_url、esc_textarea、wp_kses_post）？
+51. [ ] [WP条件] 动态外部入参是否在调用 wp_unslash() 后才进行对应清洗（sanitize_*）？
+52. [ ] [WP条件] 所有引发状态变更的操作，是否做到了 Nonce 校验与 current_user_can() 权限校验双重配合？
+53. [ ] [WP条件] 所有数据库交互是否严格通过 $wpdb->prepare() 参数化绑定，并动态拼接 $wpdb->prefix？
+54. [ ] [WP条件] 激活/停用钩子是否在插件主文件最外层顶层注册，破坏性清理是否隔离在 uninstall.php 中并校验 WP_UNINSTALL_PLUGIN？
+55. [ ] [WP条件] register_rest_route 是否强制声明了 permission_callback，且接口返回标准的 WP_REST_Response / WP_Error 对象？
+56. [ ] [WP条件] 所有全局函数、类名、常量、选项名是否均携带了专属唯一前缀（Prefixing）防冲突？
+57. [ ] [WP条件] Gutenberg 区块是否在 block.json 中声明了 apiVersion: 3 以适配 iframe 编辑器沙箱？
 ```
 
 ---
