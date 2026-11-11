@@ -1,207 +1,213 @@
 ---
-name: fullstack-craft-perfection
+name: fullstack-craft-perfection-en
 description: >-
-  通用全栈工程与设计工匠级必备技能。专为 Web 与小程序研发打造（注：不适合移动端原生 App）。只要涉及编写、修改、重构、修复任何代码（PHP、JS、CSS、HTML、API、小程序等）
-  或调整前端 UI 样式文案，必须立即自动激活并通读此技能。严格执行全域地毯式排查（严禁“改A漏BCD”）、
-  彻底杜绝“一眼AI”土黄与紫蓝渐变、严禁编写临时Python脚本代改源码，并严格履约52项自查回执。
+  Mandatory universal engineering and visual craft standard for ALL software tasks.
+  MUST be activated and read immediately whenever authoring, modifying, editing, refactoring,
+  debugging, reviewing, or styling ANY code (PHP, JS/TS, Python, CSS/HTML, SQL, APIs, UI).
+  Enforces zero-AI-slop palettes (no muddy yellows or purple gradients), full-spectrum synchronization
+  (strictly eliminating "updating A while missing BCD"), in-place native edits, and the master 52-item audit checklist.
 ---
 
-# 全栈资深架构师与设计总监通用工程技能包 (Fullstack Craft Perfection)
+# Fullstack Craft Perfection (Universal Engineering & Design Skill Package)
 
 > [!IMPORTANT]
-> **适用范围严格声明 (Target Ecosystem & Scope)**
-> **本规范仅适用于 Web 全栈（Vue、React、Node、PHP、Python、Go 等）与微信/企微小程序研发体系！**
-> 🚫 **明确不适用范围**：本规范**不适合**移动端原生 App（iOS / Android）或底层嵌入式开发。原生 App 缺乏 CSS/DOM 体系，且受二进制商店审核、主线程防卡顿（ANR）、内存管理（ARC/OOM）及系统级动态权限限制，切勿将本规范套用于原生 App。
+> **Target Ecosystem & Applicable Scope**:
+> This specification applies **EXCLUSIVELY to Web Fullstack and Mini-Program (WeChat/WeCom) development environments**.
+> 🚫 **Explicit Non-Scope**: It is **NOT SUITABLE for Native Mobile Apps (iOS Swift/ObjC, Android Kotlin/Java)** or embedded development. Native mobile application constraints (lack of CSS/DOM, binary store reviews, main-thread ANR prevention, ARC/OOM memory barriers, and OS runtime permissions) are fundamentally incompatible with web/mini-program paradigms.
 
-本技能包专为实现**生产级可靠性与韧性（Staff/Principal Engineer）**与**国际获奖级视觉美学（Awwwards / Webby / FWA Tier）**的双重融合而设计。专为 Web 与小程序研发打造（注：不适合移动端原生 App）。
+This skill package is engineered to fuse **production-grade resilience (Staff/Principal Engineer tier)** with **world-class visual craft and aesthetics (Awwwards / Webby / FWA Tier)**. It applies universally across Web and Mini-Programs (Note: Not suitable for native iOS/Android apps).
 
 ---
 
-## 核心工作流：从需求到交付的四阶段规范
+## Core Workflow: Four-Phase Delivery Lifecycle
 
 ```mermaid
 flowchart LR
-    A["阶段一：顶层架构与行数预算"] --> B["阶段二：设计系统与动效美学"]
-    B --> C["阶段三：防御性工程与高可用"]
-    C --> D["阶段四：49项清单自查与合规交付"]
+    A["Phase 1: Architecture & Line Budget"] --> B["Phase 2: Design Tokens & Visual Craft"]
+    B --> C["Phase 3: Defensive Engineering & Resilience"]
+    C --> D["Phase 4: 52-Item Audit & Delivery Contract"]
 ```
 
 ---
 
-## 阶段一：顶层架构与模块化行数预算 (Architecture & Line Budget)
+## Phase 1: Upfront Architecture & Modular Line Budget
 
-在动手编写任何业务代码前，必须进行**前置组合设计（Upfront Composition）**，坚决消灭单体巨文件（God File）：
+Before authoring code, establish **Upfront Composition** to decisively eliminate monolithic God Files:
 
-1. **自研业务单文件行数红线 (阶梯式健康预算)**：
-   - **常规业务单文件 (子组件/Controller/Model/工具类)**：建议保持在 `1200 ~ 1800` 行以内；
-   - **复杂核心单文件 (多状态聚合容器/大型单页/核心交易领域Service)**：健康区间保持在 `1800 ~ 2500` 行，**绝对物理硬性上限放宽至 3000 行**（只有超过 3000 行才必须拆分，坚决杜绝为了盲目压低行数而将高内聚业务强行肢解为碎片文件的过度抽象灾难）；
-   - **函数粒度控制**：单个函数/方法保持在 `120 ~ 150` 行内（复杂事务流、状态机或复杂算法流程放宽至 `200` 行内），确保调用链连贯可读。
-2. **前置拆分与组合范式**：
-   - **前端复杂大功能**：主页面只作为**容器装配层**，按业务区块拆为独立子组件（Subcomponents），状态与异步数据抽离为 Hooks / Store / Service，工具函数抽取为 Helper。
-   - **后端复杂系统**：Controller 仅负责入参调度与响应封装，核心业务领域下沉至 Service，数据持久化交给 Model / Repository，算法抽取为 Helper。
-3. **第三方依赖、语言包与静态配置显式豁免**：
-   - **语言国际化文件显式豁免**：多语言翻译包与本地化文件（如 `.po`, `.pot`, `.mo`、i18n JSON 字典、语言映射 PHP 数组等）完全不受此行数限制；
-   - **依赖与编译产物豁免**：外部开源依赖、SDK、包管理器目录（`vendor/`, `node_modules/`）、编译构建产物（`dist/`）及大字典、纯静态表结构列配置（Column Schema）完全豁免。
-4. **宏观全局架构观与拒绝过度工程 (Holistic Architecture & Anti-Overengineering)**：
-   - **全局系统视野**：面对大型复杂工程，必须从系统整体高度理解领域边界与生命周期；优先复用既有 Service/Helper/异常体系，坚决杜绝因盲目写碎函数导致轮子碎片化与架构撕裂；
-   - **奥卡姆剃刀与极简实现 (KISS)**：严禁简单问题复杂化（杜绝 100 行可解决的问题写成 500 行弯弯绕绕）；杜绝为了虚无缥缈的未来扩展性（YAGNI）而滥用多层工厂、空转包装与过度抽象。
-5. **后台动态配置解耦与严禁运营配置写死代码 (Decoupled Operations)**：
-   - **运营数据零硬编码**：系统/站点标题、Logo、轮播Banner图、客服联系方式/二维码、商业费率/价格、功能开关、公告文案及第三方API凭据，严禁写死在控制器、视图或业务代码中；
-   - **强制三层配置架构**：
-     1. *动态持久化与后台管控*：存入数据库配置表/选项表，后台提供直观的管理设置界面（表单、开关、富文本、图片上传器），运营人员随时自主变更；
-     2. *生产级安全兜底*：业务代码统一通过集中加载器读取（如 `get_config('key', 'default_val')`），并赋予安全合法的默认回退值，确保在未配置或首次安装时系统不白屏、不报错；
-     3. *职责解耦*：代码负责定义数据结构、校验逻辑与兜底值，运营管控运行期动态内容，坚决杜绝因改一个电话号码或图片而让用户修改源码。
-
----
-
-## 阶段二：设计系统与国际获奖级美学 (Design System & Visual Craft)
-
-所有界面设计与微交互必须以 **Awwwards / Webby / FWA 获奖级作品** 为品质基准：
-
-1. **系统化 Design Tokens 驱动与杜绝“一眼 AI”套路色彩**：
-   - 页面样式必须建立在系统化 CSS 变量之上（统一的色彩阶梯、间距网格、字阶比例、投影光泽与缓动曲线）；
-   - **杜绝一眼 AI 俗套色与视觉舒适度铁律**：坚决禁绝老套紫蓝大渐变、赛博霓虹发光与大面积无脑毛玻璃；非暗黑模式下界面必须保持通透、明亮、清爽（象牙白/冷瓷白基底与精致纯白卡片，**绝不发暗发脏**）；暗黑模式通过深空黑曜石表面层级（Base $\to$ Surface $\to$ Elevated $\to$ Overlay）拉开纵深，拒绝死黑一块；警告色全面升级为微透琥珀暖金（Warm Amber）系统，杜绝浑浊脏土黄；全站严格践行“90% 克制中性色底蕴 + 10% 单英雄重点色”；
-   - **渐变色尺度与场景克制法则**：严禁在页面 body、主背景容器、侧边栏及大卡片上通铺大面积线性渐变（防视觉疲劳与廉价感）。渐变色严格限定在微型点缀：小尺寸标签/徽标（$\le 28\text{px}$）、1px 高光渐变边框、单主按钮微光泽（5%~10% 同色系明度微调）或深层环境软光（不透明度 < 6%）；单英雄色同谱微调，禁多色跨谱乱炖；
-   - 参考标准变量池：[design-tokens.css](./references/design-tokens.css)。
-2. **UI 交互 8 态完整生命周期闭环**：
-   - 任何具备交互或数据承载的组件，必须推敲并实现 8 态闭环：
-     `Default` → `Hover` → `Active/Press` → `Focus-Visible` → `Skeleton/Loading` → `Empty` → `Error/Fallback` → `Disabled`；
-   - 详见落地规范：[ui-8-states-guide.md](./references/ui-8-states-guide.md)。
-3. **动效物理定律与 GPU 合成层铁律**：
-   - **属性限定**：动效与过渡严格限制在 `transform` 与 `opacity`，严禁使用引发重排（Reflow）的盒模型属性做动画；
-   - **缓动曲线**：采用经过调校的贝塞尔曲线（如 `cubic-bezier(0.16, 1, 0.3, 1)`），保证全端满帧 60/120fps。
-4. **移动端响应式、小程序与微文案克制 (Mobile & Mini-Programs & Microcopy)**：
-   - 绝不使用固定死宽大值导致水平滚动；
-   - **按钮与标签文字克制**：常规操作按钮保持在 **2~6 个字**（如“保存”、“确认支付”、“下载报表”），复合或带状态操作**严禁超过 8 个字**；标签/徽标控制在 **2~4 个字**；严禁塞入说明性长句，补充说明必须剥离至辅助提示行；
-   - **防折行保底**：按钮与标签强制设置 `white-space: nowrap;`，杜绝小屏/小程序下折行变形；
-   - 移动端点击区域与按钮尺寸必须保证 $\ge 44 \times 44\text{px}$ 规范触控面积；
-   - **小程序与移动端适配铁律**：开发移动端与小程序（微信、Uni-app、Taro）时，严格遵循 $750\text{rpx}$ 基准、底部悬浮操作栏强制 `padding-bottom: env(safe-area-inset-bottom);`、自定义导航栏动态计算胶囊边界（`getMenuButtonBoundingClientRect`）、严禁调用浏览器独有 DOM（`window`/`document` 绝无 DOM 禁令）、单包控制在 2MB 内，并在 `setData` 前精准裁剪字段。
-5. **UI 图标工程化与严禁滥用 Emoji (Zero-Emoji & Extensible Icon System)**：
-   - 严禁在按钮、菜单、指示器等 UI 组件中使用原生 Emoji 表情充当功能图标（防跨端渲染风格割裂、低版本系统乱码方块与廉价感）；
-   - 核心内置图标优先使用标准矢量 `<svg>`（支持 currentColor 继承、无损缩放、无额外请求）；
-   - **主流生态全面覆盖与统一类名前缀**：国内深度支持 **阿里巴巴矢量图标库 (Iconfont / alicdn)**，国际支持 **Remix Icon、FontAwesome、Iconify** 等工业级主流体系；必须遵循行业标准的 Class 类名前缀命名契约（阿里 Iconfont 统一为 `iconfont icon-xxx`、Remix Icon 统一为 `ri-xxx-line` / `ri-xxx-fill`、FontAwesome 统一为 `fa-solid fa-xxx` 或 `fa fa-xxx`、Iconify 遵循 `<iconify-icon icon="xxx">`），杜绝无前缀随意命名引发全局样式污染；
-   - **支持后台自定义输入解耦**：系统涉及图标配置时严禁硬编码写死，必须支持用户在后台或配置项中自定义输入第三方图标库 CDN 链接（如 Iconfont 在线 CSS `//at.alicdn.com/t/c/font_xxx.css`、Remix Icon / FontAwesome CDN 链接、在线 SVG 外链）与图标类名（如 `icon-home`、`ri-home-line`、`fa-home`），并配套本地优雅 SVG 占位兜底。
-6. **四大访客场景模式与意图驱动 (Four Visitor Surface Modes)**：
-   - **Operate 操作模式（应用界面/后台工作台/设置/仪表盘）**：用户沉浸在任务中，工具必须完全融入工作流。扫描率、信息密度、交互一致性高于个性张扬；单一无衬线字体；紧凑字阶；150~250ms 轻快过渡；严禁强迫用户等待开屏加载编排动画；
-   - **Persuade 说服模式（品牌官网/落地页/发布页）**：设计本身就是产品。大开大合的字阶反差，鲜明强烈的视角，单一经过编排的核心聚焦动效；
-   - **Read 阅读模式（文档/知识库/更新日志）**：正文视宽严格锁定在 `45ch ~ 75ch`，字距舒适，目录清晰直观；
-   - **Experience 体验模式（作品集/展厅/画廊）**：数字展品本身主导首屏，界面与导航退居为环境底蕴。
-7. **排版物理学、反套路禁忌矩阵与微文案人体工学**：
-   - **渐进式智能换行**：标题强制 `text-wrap: balance;` 消除难看折行；正文段落强制 `text-wrap: pretty;` 消除末行孤字；数据面板强制使用 `tabular-nums` 等宽数字；
-   - **暗黑模式光渗补偿**：暗黑模式下微调字重降阶，并补充 `+0.01em` 微正向字距与 2%~5% 行高，消除字符粘连；
-   - **反套路禁忌矩阵**：严禁嵌套卡片（Card 里套 Card）；直接删掉毫无意义的标题小眉题（Eyebrow）；除新野兽派外坚决禁用积木式生硬无模糊投影；
-   - **全量主题化浏览器表面**：统一设计文本选区 `::selection`、输入光标 `caret-color`、双环无障碍焦点 `:focus-visible` 与细滚动条；
-   - **报错三要素与安全撤销**：面向用户的报错必须确定性回答“发生何事 + 明确原因 + 如何恢复”；可逆操作直接执行并提供 5~8 秒 Undo 撤销轻提示，杜绝滥用打断式确认弹窗；确认按钮必须带明确动词与宾语（如“删除工作区”，严禁含糊写“确定/OK”）；
-   - 深度完整落地指南：[design-and-ux-craft.md](./references/design-and-ux-craft.md)。
-8. **功能与样式同频交付与严禁前端裸奔交付 (Synchronous Function & Visual Delivery)**：
-   - **严禁毛坯裸奔交付 (Zero Naked Frontend)**：交付前端功能时（HTML、Blade/Twig模板、React、Vue、微信小程序WXML等），所有表单、输入框、下拉框、表格、弹窗、卡片、标签、分页与按钮，必须同步交付完整、精致、对齐 Design Token 的生产级 CSS/WXSS 样式；
-   - **严禁交付无样式的骨架标签**：绝不交付仅写了功能标签却依赖浏览器丑陋默认外观的半成品（如未经美化的灰色原生按钮、未对齐输入框、无边框表格、未处理折行等）。无样式的交付视为不合格残次交付；
-   - **表单与表格精工交付**：输入框、选择器、文本域、复选框具备标准内边距、圆角、`:focus-visible` 双环光晕、占位符配色及校验错误红框提示；表格包裹响应式横向滚动容器并具备空数据优雅兜底。
+1. **Tiered Physical Line Budget**:
+   - **Standard Business Files (Subcomponents, Controllers, Models, Utilities)**: Keep within `1200 ~ 1800` lines.
+   - **Complex Core Files (Multi-state containers, large SPAs, core trading domain services)**: Healthy target within `1800 ~ 2500` lines; absolute physical ceiling set at **3000 lines**. (Enforce decomposition only when exceeding 3000 lines; do not prematurely fragment cohesive code into dozens of tiny files).
+   - **Function Granularity**: Keep individual methods within `120 ~ 150` lines (up to `200` lines for atomic transaction flows, state machines, or complex algorithms).
+2. **Upfront Decomposition & Composition**:
+   - **Complex Frontend Views**: The root page serves strictly as an **assembly container**; partition sub-features into dedicated subcomponents, and extract state/network logic into custom Hooks/Stores/Services.
+   - **Complex Backend Domains**: Controllers only handle parameter validation and response envelopes; domain logic resides in dedicated Services; persistence belongs in Models/Repositories; algorithmic helpers live in Utilities.
+3. **Explicit Exemptions**:
+   - **Localization & Language Files**: Multi-language translation catalogs (`.po`, `.pot`, `.mo`, i18n JSON dictionaries, language mapping arrays) are **100% exempt** from line limits.
+   - **External Dependencies & Generated Bundles**: Vendor packages (`vendor/`, `node_modules/`), compiled build targets (`dist/`), and static database table column schemas are exempt.
+4. **Holistic System Architecture & Anti-Overengineering (KISS & Anti-YAGNI)**:
+   - **Holistic System Vision**: Understand domain boundaries, lifetimes, and dependencies globally. Reuse established infrastructure; never fragment the codebase by writing redundant micro-utilities.
+   - **Occam's Razor & KISS**: Prefer the most straightforward, flat, and intuitive implementation. If 100 lines solve the problem cleanly, never author 500 lines of multi-layered factories, wrappers, or speculative abstractions (YAGNI).
+5. **Server-Driven Everything & Zero Frontend Hardcoding (Zero Hardcoded Assets & Logic)**:
+   - **Zero Hardcoded Imagery & Icons**: Scene illustrations, hero backgrounds, card covers, functional icons, and marketing graphics must NEVER be hardcoded to static local paths (e.g. `/static/scene.png` or `background-image: url(...)`). They must be dynamically returned via backend APIs (CDN URLs) with admin upload/replacement capabilities. Frontend retains only a generic fallback placeholder;
+   - **Zero Hardcoded Copy & Guidance**: Scene titles/subtitles, promotional copy, gameplay/business rules, rich text descriptions, and action hints must NEVER be hardcoded in templates. They must be fetched from backend APIs, supported by visual admin editing, eliminating code commits and app store re-reviews for simple copy tweaks;
+   - **Zero Hardcoded Module Orchestration & Toggles**: Functional entrance cards, tabs, feature blocks, and action buttons within a scene must be driven by structured backend configurations (Server-Driven UI), with admin toggle switches (`is_enabled`) and sorting weight controls (`sort_order`);
+   - **Zero Hardcoded Dictionaries & Lists**: Scene catalogs, product categories, industry selectors, filter tags, and business status dictionaries must NEVER be mocked as static frontend arrays (`const list = [...]`). They must be dynamically loaded from database tables and dictionary APIs;
+   - **Complete End-to-End Delivery (DB + API + Admin CRUD)**: When implementing any dynamic or editable scenario, deliver the full stack: ① Database schema $\to$ ② Server-side retrieval and management APIs $\to$ ③ Admin panel management/editing interface (CRUD) $\to$ ④ Frontend dynamic consumption and rendering. Static frontend "facades" without backend support are strictly rejected.
 
 ---
 
-## 阶段三：全栈防御性工程与系统韧性 (Defensive Engineering & Resilience)
+## Phase 2: Design Systems & World-Class Visual Craft
 
-1. **前端视图前置数据清洗 (Data Normalizer)**：
-   - 外部异步 API 数据注入视图渲染前，必须经过适配清洗；
-   - 提供安全回退默认值，对数值与格式做有效性校验，杜绝页面裸露 `NaN`、`undefined` 或因深层链式取值引发白屏。
-2. **全生命周期对称释放（零内存泄漏）**：
-   - 组件销毁或页面卸载时，挂载的 `addEventListener`、`setInterval`/`setTimeout`、`IntersectionObserver` 及第三方图表/动画实例必须 **100% 显式注销释放**。
-   - 高频提交配备防抖（Debounce）/节流（Throttle）与在途请求互斥锁（In-flight Lock）。
-3. **后端强类型 DTO 隔离 (Mass Assignment Defense)**：
-   - 接口层与核心业务层之间必须通过显式 DTO 白名单校验，阻断外部未知参数污染持久层或领域模型。
-4. **服务端绝对幂等保障 (Write Idempotency)**：
-   - 资金、订单、状态流转等关键写操作，必须在服务端通过数据库唯一约束（Unique Constraint）、业务幂等 Token 或分布式锁实现绝对幂等。
-5. **全链路 Trace-ID 贯穿与优雅停机**：
-   - 请求入口生成唯一 `Trace-ID` 贯穿日志与 RPC/API 调用；
-   - 外部依赖失败重试必须配备**带随机抖动的指数退避（Exponential Backoff with Jitter）**；
-   - 常驻进程/Worker 监听 `SIGTERM`/`SIGINT` 信号实现优雅停机（Graceful Shutdown）。
-6. **媒体与图片上传压缩、尺寸预算与安全 (Media Upload Compression & Security)**：
-   - 图片上传默认配置前置压缩与尺寸重塑（前端 Canvas 等比缩放，最大宽高如 1920px / 1280px，质量 0.8~0.85，转 WebP/优化 JPEG），除显式“原图”需求外严禁直传几十兆生图；
-7. **全栈全域性能预算与计算复杂度控制 (Performance Budget & Complexity)**：
-   - 数据库列表与统计查询严禁使用 `SELECT *`，大文本与 JSON 字段按需独立获取，防止内存与带宽击穿；
-   - 前端大列表（超 50~100 项）必须配置流式分页或虚拟滚动（Virtual List），杜绝万级 DOM 节点卡死页面；
-   - 非首屏图片与媒体默认必须带 `loading="lazy"` 与 `decoding="async"`；
-   - 搜索输入必须防抖（300~500ms），视口与滚动监听全面采用 `IntersectionObserver` / `ResizeObserver` 或硬性节流；
-   - 多数据集比对必须提前构建 Map/Hash 字典索引（$O(1)$ 查找），严禁循环内嵌套线性查找导致算法退化为 $O(N^2)$。
-8. **行级数据归属鉴权、软删除、PII 脱敏与 DDL 幂等安全 (Data Security & Safe Evolution)**：
-   - **行级数据归属鉴权 (防 IDOR 水平越权)**：非管理员的私有数据操作，强制在持久层绑定当前登录用户上下文（如 `WHERE id = :id AND user_id = :current_user_id`），杜绝篡改 ID 越权篡改他人资产；
-   - **核心资产软删除**：核心业务数据严禁物理 `DELETE`，统一采用 `deleted_at IS NULL` 软删除标记与防冲突唯一索引设计，保障数据追溯、合规审计与误删恢复；
-   - **PII 隐私与日志脱敏**：手机号、身份证、邮箱等对外输出与前端展示强制掩码脱敏，运行与 Trace 日志严禁裸露明文密码、密钥与敏感隐私；
-   - **DDL 幂等与零停机演进**：迁移脚本必须重入幂等无害，生产环境数据库结构变更遵循 Expand-Contract 渐进演进法则，严禁直接破坏性删列。
-9. **彻底重构与零死代码、依赖对齐与零 API 幻觉 (Clean-Cut & Zero Hallucination)**：
-   - **彻底斩断式重构**：从方案 A 转向方案 B 时，旧方案 A 的逻辑、类、配置必须 100% 连根清理干净，严禁留下一半 A 一半 B 的怪胎代码相互牵制，保证单一真实来源；
-   - **依赖版本对齐与零幻觉**：严格对齐当前运行环境版本与依赖清单，严禁使用废弃 API，严禁凭大模型直觉编造不存在的函数库、方法签名或版本号。
-10. **全域地毯式排查、严禁“改A漏BCD”与爆炸半径走查 (Full-Spectrum Propagation & Blast Radius)**：
-    - **全域地毯式排查与原子同步**：修改功能或文案时绝对禁止陷入单点隧道视野，必须全局检索排查所有同类业务触点（跨控制器、视图、PC/移动端/管理后台），100% 同步修改到位，严禁“改A漏BCD”；
-    - **爆炸半径走查**：修改公共方法、字段、底层组件时，必须反向检索所有调用方（Call Hierarchy），确保变更不破坏下游业务，保持向下兼容；
-    - **前置资产查重 (SSOT)**：编写新逻辑前必须先在项目中检索既有公共类/工具/组件，优先复用与扩展，确保业务核心逻辑为单一真实来源；
-    - **极值边界推演与根因排障**：强制推演空值（`null`/`[]`/`{}`）、数值极值（`0`/负数/溢出）、并发与网络异常链路，杜绝假阳性浅层代码；复杂问题直击根因而非盲目打补丁。
+All interface engineering and micro-interactions must aspire to the caliber of **Awwwards, Webby Awards, and FWA winners**:
+
+1. **Systematic Design Tokens Driven & Anti-AI Slop Palette**:
+   - Interface styling must be built upon systematic CSS Variables (palette scales, 4px grid rhythm, fluid typography, ambient shadows, and refined bezier easings);
+   - **Zero AI-Cliche Colors & Visual Ergonomics**: Decisively ban generic purple-blue gradients, cyberpunk neon glows, and muddy/dirty yellows. Non-dark interfaces must stay luminous, clean, and crisp (never muddy or dull gray); dark themes must use 4-tier surface depths rather than flat void black. Standardize on engineered Warm Amber feedback and a single hero accent;
+   - **Gradient Scope & Scale Discipline**: Strictly ban large-area linear gradient backgrounds across `body`, main page backdrops, sidebars, and major cards (which cause visual fatigue and cheap template aesthetic). Gradients are confined exclusively to micro-elements: tiny badges/tags ($\le 28\text{px}$), 1px hairline border highlights, single CTA button micro-sheen (5%~10% monochromatic specular shifts), or deep ambient radial glows (< 6% opacity);
+   - Standard reference token pool: [design-tokens.css](./references/design-tokens.css).
+2. **Complete 8-State UI Lifecycle**:
+   - Every interactive or asynchronous data component must design for and implement the 8-state closed loop:
+     `Default` → `Hover` → `Active/Press` → `Focus-Visible` → `Skeleton/Loading` → `Empty` → `Error/Fallback` → `Disabled`;
+   - Full implementation guide: [ui-8-states-guide.md](./references/ui-8-states-guide.md).
+3. **Motion Physics & GPU Compositing Laws**:
+   - **Restricted Properties**: Animations and transitions are strictly confined to `transform` and `opacity`. Never animate layout or box-model properties that trigger reflow (Reflow/Layout).
+   - **Tailored Bezier Curves**: Utilize calibrated cubic-bezier curves (e.g., `cubic-bezier(0.16, 1, 0.3, 1)`), guaranteeing silky 60/120fps motion.
+4. **Mobile Responsiveness, Mini-Programs & Microcopy Economy**:
+   - Never hardcode fixed pixel widths that produce horizontal scrollbars on mobile devices;
+   - **Microcopy Word Budget**: Action buttons must stay within **2 to 6 words / characters** (e.g., "Save", "Confirm Payment", "Download Report"); complex or chained actions must **never exceed 8 words / characters**; tags/badges stay within **2 to 4 words / characters**. Explanations belong in helper text below the button, not crammed inside it;
+   - **No-Wrap Guarantee**: Enforce `white-space: nowrap;` on buttons and badges to prevent distorted wrapping on compact viewports;
+   - Mobile touch targets must guarantee at least $\ge 44 \times 44\text{px}$;
+   - **Mini-Program & Mobile Insets**: When building for mobile/miniapps (WeChat, Uni-app, Taro), enforce `rpx` (750 design basis), bottom safe areas (`padding-bottom: env(safe-area-inset-bottom);`), dynamic capsule button avoidance (`getMenuButtonBoundingClientRect()`), zero-DOM APIs (`window`/`document` banned), 2MB package budgeting, and `setData` communication payload throttling.
+5. **UI Icon Engineering & Zero Native Emojis (Zero-Emoji Standardization)**:
+   - Strictly prohibit using native emojis (🚀, 💡, 🔥, ⚙️, ❌, ✅) as interactive functional icons (preventing fragmented cross-platform rendering and degraded aesthetic credibility);
+   - Core built-in icons should prefer inline vector `<svg>` (supporting `currentColor` inheritance and zero extra HTTP requests);
+   - **Comprehensive Ecosystem Support**: Support **Alibaba Iconfont (`iconfont icon-xxx`)**, **Remix Icon (`ri-xxx-line` / `ri-xxx-fill`)**, **FontAwesome (`fa-solid fa-xxx`)**, and **Iconify (`<iconify-icon icon="xxx">`)** with strict class prefix namespacing;
+   - **Dynamic CDN Decoupling**: Support dynamic admin configuration of external icon CDN stylesheets and icon class names, backed by graceful local SVG fallback placeholders.
+6. **Four Visitor Surface Modes & Purpose-Driven Ambition**:
+   - **Operate Mode (App UI, Dashboards, Settings, Editors)**: The user is in a task; the tool must disappear into the workflow. Prioritize scanability, information density, standard affordances, and a single cohesive font family over expressive flourish. Transition durations stay brisk (150ms ~ 250ms); ban gratuitous page-load choreography.
+   - **Persuade Mode (Landing Pages, Marketing, Launches)**: The visitor decides and acts; design is the product. Commit to a sharp POV, high-contrast display typography, and a singular authored focal motion sequence.
+   - **Read Mode (Docs, Guides, Changelogs)**: Focus on comprehension and retention; strictly bound body measure to `45ch ~ 75ch` with comfortable leading and clear navigation.
+   - **Experience Mode (Showcases, Galleries)**: The creative artifact leads from the first viewport; UI recedes into ambient backgrounds.
+7. **Typography Physics, Craft Refusal Matrix & Actionable Microcopy**:
+   - **Progressive Line Breaks**: Declare `text-wrap: balance;` on headings and short titles (distributing line breaks evenly); declare `text-wrap: pretty;` on body text to eliminate trailing orphan words. Apply `tabular-nums` to all data metrics;
+   - **Dark-Mode Optical Compensation**: Compensate for light irradiation on dark surfaces by stepping down font weight slightly and adding subtle positive tracking (`+0.01em ~ +0.015em`);
+   - **The Craft Refusal Matrix**: Strictly ban nested cards (card inside a card); delete purposeless tiny uppercase eyebrows/kickers above headings; ban zero-blur hard block shadows outside true neobrutalism; exhaust inline/drawer options before reaching for interruptive modals;
+   - **Themed Browser Surfaces**: Style `::selection`, `caret-color`, dual-ring `:focus-visible`, and slim scrollbars to match the design system;
+   - **3-Part Error Anatomy & Undo Ergonomics**: User-facing errors must answer "What failed + Why + How to recover". Prefer instant safe action with a 5~8s Undo toast over modal popups; buttons must explicitly name the specific action (e.g., "Delete Workspace", not "OK");
+   - Comprehensive guide: [design-and-ux-craft.md](./references/design-and-ux-craft.md).
+8. **Atomic UI Styling & Zero Raw-HTML Deliverables (Synchronous Function & Visual Delivery)**:
+   - **Zero "Naked / Half-Finished" Frontend Deliverables (严禁前端裸奔交付)**: Whenever authoring frontend functionality (HTML, Blade/Twig views, React, Vue, Svelte, WeChat WXML, Uni-app, Taro), **all functional markup, form controls, tables, modals, cards, tabs, and interactive states must ship with complete, polished, token-aligned CSS/WXSS styles**;
+   - **Strict Ban on Raw Skeleton Mockups**: Strictly forbid generating unstyled bare-bones HTML relying on default browser styling (e.g., unformatted buttons, unaligned inputs, unpadded tables, raw text blocks). A feature is defective and incomplete if delivered without visual polish and responsive styling;
+   - **Form & Table Polish**: Inputs, selects, textareas, checkboxes, tables, and pagination must include padding, borders, `:focus-visible` dual-rings, placeholder styling, responsive scroll wrappers, and error validation feedback.
 
 ---
 
-## 阶段四：52项清单自查与合规交付 (Verification & Delivery)
+## Phase 3: Defensive Engineering & System Resilience
 
-每次编写或修改代码后，必须严格对照 52 项检查清单完成自查，并在回复末尾附带标准合规回执：
+1. **Pre-Render Data Normalization (Data Normalizer)**:
+   - External asynchronous payloads must pass through an adaptation layer before injecting into views;
+   - Provide safe fallback defaults and type guards to eliminate `undefined` exceptions, broken media, or raw `NaN` strings in the DOM.
+2. **Symmetric Lifecycle Cleanup (Zero Memory Leaks)**:
+   - When components unmount, symmetrically detach all `addEventListener`, clear `setInterval`/`setTimeout`, disconnect `IntersectionObserver`/`ResizeObserver`, and destroy third-party chart/canvas instances.
+   - Enforce debouncing/throttling and in-flight request mutex locks on high-frequency form submissions.
+3. **Strict DTO Isolation (Mass Assignment Defense)**:
+   - Enforce explicit DTO or whitelist schema validation between boundary layers and business domains, blocking unauthorized parameters from reaching models or persistence.
+4. **Server-Side Write Idempotency**:
+   - Critical state-mutating operations (payments, orders, asset adjustments) must enforce idempotency on the server using unique database indexes, idempotency keys, or distributed locks.
+5. **End-to-End Tracing (Trace-ID) & Graceful Shutdown**:
+   - Ingress requests must allocate or propagate a unique `Trace-ID` across logs, audits, and RPC/API calls;
+   - Outbound dependency retries must implement **exponential backoff with randomized jitter**;
+   - Daemons and message queue workers must capture `SIGTERM`/`SIGINT` signals for graceful shutdown.
+6. **Pre-Upload Media Compression, Dimension Budgets & Security**:
+   - Image uploads must configure pre-compression by default (client-side Canvas downscaling to max 1920px/1280px, quality 0.8~0.85, WebP/JPEG);
+   - Server-side pipelines must validate authentic magic bytes and strip privacy-sensitive EXIF metadata (especially GPS coordinates).
+7. **Fullstack Performance Budget & Complexity Control**:
+   - Avoid `SELECT *` in high-volume paths; fetch bulky text/JSON blobs on demand;
+   - Datasets exceeding 50~100 items must use virtualization or progressive pagination;
+   - Non-critical media must declare `loading="lazy"` and `decoding="async"`;
+   - Search inputs must debounce (300~500ms); viewport tracking must use `IntersectionObserver`;
+   - Correlating multiple datasets must build Hash Maps/Dictionaries for $O(1)$ lookups, avoiding $O(N^2)$ nested loops.
+8. **Row-Level Authorization, Soft Delete & Safe Migrations**:
+   - **Row-Level Ownership (IDOR Defense)**: Scope non-admin resource mutations to the authenticated user context (e.g., `WHERE id = :id AND user_id = :current_user_id`);
+   - **Soft Delete for Core Assets**: Do not physically `DELETE` core business records; utilize `deleted_at TIMESTAMP NULL` with compound unique keys;
+   - **PII Masking**: Mask phone numbers, ID cards, and emails on user-facing interfaces and sanitize credentials in server logs;
+   - **Expand-Contract Migrations**: DDL migrations must be idempotent and follow zero-downtime Expand-Contract phases.
+9. **Clean-Cut Refactoring & Zero API Hallucination**:
+   - **Clean-Cut Cutover**: When migrating from Architecture A to Architecture B, completely remove all code related to Solution A, maintaining a single source of truth;
+   - **Dependency Alignment**: Align code with target environment runtime versions and dependencies; never invoke deprecated APIs or invent hallucinated function signatures.
+10. **Full-Spectrum Propagation, Blast Radius & Root-Cause Debugging**:
+    - **Full-Spectrum Propagation (Anti-Partial Modifications)**: When updating features, state logic, or UI copy, never operate with single-point tunnel vision. Exhaustively audit all touchpoints (Pages A, B, C, D across PC/mobile/admin) and synchronize them atomically in one pass;
+    - **Blast Radius Audit**: Reverse-search call hierarchies before modifying shared components, ensuring backward compatibility;
+    - **Pre-Coding Asset Audit (SSOT)**: Check existing codebase utilities before authoring new ones; reuse and extend existing assets;
+    - **Edge-Case Simulation & Root-Cause Debugging**: Simulate edge cases (nulls, zero, negatives, concurrency, timeouts) and fix root causes rather than applying superficial patches.
 
-### 52 项自查清单
-1. [ ] 是否通过调用链精准追踪到了功能对应的实际生效源码，而非仅靠泛关键词盲改？
-2. [ ] 是否遵守了“零本地 PHP 运行”的铁律（如适用）？
-3. [ ] 第三方 API 调用（接口端点URL、请求参数、鉴权签名及返回字段层级）是否 100% 对齐官方最新真实文档，杜绝凭空瞎编虚构？
-4. [ ] 新增/修改的代码是否符合项目原本的架构风格，没有引入不搭调的新结构？
-5. [ ] CSS 修改是否在原选择器处直接修改，而不是在文件末尾追加强制覆盖样式？
-6. [ ] SQL 操作是否全部使用预处理绑定参数，无字符串拼接？
-7. [ ] 前端 HTML 动态输出是否均已进行 XSS 转义防护？
-8. [ ] 代码中是否没有任何硬编码的 API 密钥或敏感密码？
-9. [ ] 原有的关键注释与上下文业务逻辑是否完好保留？
-10. [ ] 错误处理是否已安全捕获并记录日志，不泄漏系统报错堆栈？
-11. [ ] JavaScript 操作 DOM 前是否已进行非空校验？
-12. [ ] 是否严格通过原生编辑工具直接修改代码，而非编写临时 Python/Shell 脚本曲线代改？目录中是否有无用的临时 .py 脚本、.bak 或测试文件残留？
-13. [ ] 第三方 HTTP 请求是否均已设置显式超时与失败兜底逻辑？
-14. [ ] 高频接口是否合理配置了缓存与防刷限流机制？
-15. [ ] 数据库更新/删除操作是否有 `WHERE` 条件，查询是否使用了 `LIMIT`？
-16. [ ] 修改既有接口时是否保证了对老前端/外部调用方的向下兼容？
-17. [ ] Cookie 与 Session 是否设置了 HttpOnly、SameSite 等安全属性？
-18. [ ] 文件是否全部保存为 UTF-8 无 BOM 编码，无隐藏输出字符？
-19. [ ] 敏感文件（如 `.env`）是否已加入 `.gitignore` 保护不被提交？
-20. [ ] API 接口是否统一返回 `{"code", "msg", "data"}` 格式及 JSON 响应头？
-21. [ ] 前端 UI 是否完美适配移动端与小程序（rpx / 全面屏安全区 / 胶囊避让 / 零DOM），按钮与标签文案是否克制精炼（常规2~6字，上限8字，white-space: nowrap 防折行撑爆容器）？
-22. [ ] 文件/cURL 句柄使用完毕后是否均已显式关闭释放？
-23. [ ] 处理中文或多字节字符串是否全部使用 `mb_*` 系列函数？
-24. [ ] 定时任务与异步作业是否具备幂等性与运行锁保护？
-25. [ ] 前端 UI 页面上是否没有任何开发内部字段名、调试报错堆栈、代码变量或 AI 对话文案泄漏？
-26. [ ] 自研业务单文件是否维持在阶梯健康预算内（常规1200~1800行，核心聚合大文件上限3000行，语言文件.po等完全豁免），函数是否保持在150~200行内？
-27. [ ] 循环体内是否没有任何 SQL 查询或第三方 HTTP API 调用，确保高效性能？
-28. [ ] 变量与属性访问前是否全部进行了严格的非空类型校验？
-29. [ ] 域名、IP、路径等配置是否完全从代码中解耦提取？
-30. [ ] 第三方依赖包的 Lock 锁文件是否已被完整保留？
-31. [ ] 涉及多表变更的操作是否已包裹在数据库事务中，且异常时安全回滚？
-32. [ ] 前端 UI 是否彻底杜绝了“一眼 AI”的紫蓝大渐变与浑浊土黄？是否严禁大面积渐变背景，仅将渐变克制用于微型点缀（小标签、1px边框、主按钮微光泽）？配色是否合理舒适，具备单重点色与高级表面层次？
-33. [ ] 样式是否基于系统化 Design Tokens 构建（零魔数），交互组件是否具备完整的 8 态生命周期闭环？
-34. [ ] 外部数据注入视图前是否进行了 Data Normalizer 防崩清洗，事件监听/定时器/第三方实例是否在生命周期注销时 100% 释放？
-35. [ ] 后端接口是否通过强类型 DTO 白名单隔离过滤入参，关键写操作是否在服务端实现了绝对幂等？
-36. [ ] 是否具备 Trace-ID 全链路日志可观测性，外部重试是否有防雪崩退避机制，常驻进程是否支持优雅停机？
-37. [ ] 图片上传功能是否默认配置了压缩与尺寸预算（除非特殊原图需求），并具备文件魔数校验与隐私安全防护？
-38. [ ] 是否践行了全栈性能预算（按需字段投影、长列表DOM预算/虚拟滚动、图片懒加载、高频事件防抖节流及 $O(N)$ 哈希索引化）？
-39. [ ] 界面是否杜绝原生 Emoji 充当图标，图标方案是否支持阿里 Iconfont / Remix Icon / FontAwesome / Iconify 等规范类名前缀（如 iconfont icon-、ri-、fa-）及后台外链自定义输入？
-40. [ ] 是否实施了数据行级归属鉴权（防IDOR水平越权）、核心资产软删除、PII隐私脱敏及数据库无损平滑演进？
-41. [ ] 是否恪守了奥卡姆剃刀与极简原则（KISS），杜绝简单问题复杂化、过度抽象与行数膨胀？
-42. [ ] 是否完成了彻底斩断式重构，100% 清理了废弃死代码，杜绝新旧方案混杂与相互牵制？
-43. [ ] 调用的 API 与语法是否与当前环境及依赖版本完全匹配，杜绝使用废弃 API 与编造幻觉函数？
-44. [ ] 是否具备宏观全局架构观，复用了既有公共设施，确保改动与整个系统的分层和生命周期高度自洽？
-45. [ ] 修改功能/文案时是否进行了全域地毯式排查并全量原子同步修改？是否已 100% 覆盖系统中所有同类页面与调用点（BCD端），绝无“改A漏BCD”？公共代码修改是否评估了爆炸半径？
-46. [ ] 编写代码前是否进行了“前置资产查重”，优先复用既有组件/工具，确保业务逻辑为单一真实来源（SSOT）？
-47. [ ] 是否进行了全维度极值边界推演（空值/0/负数/并发/超时），排查跨模块问题是否直击根因而非表面打补丁？
-48. [ ] 前端组件、表单、表格、弹窗与交互状态是否同步交付了完整精致的生产级 CSS 样式与 Design Token 适配，彻底杜绝了无样式的“裸奔/半成品骨架”交付？
-49. [ ] 业务运营可变量（标题、Logo、Banner、客服二维码、费率、开关、公告、API凭据）是否与源码解耦，支持后台可视化配置并配备了代码级安全兜底默认值？
-50. [ ] 异步写操作是否在点击瞬间即刻上锁（disabled + 内联Spinner），并在 finally 块中对称释放？高频事件是否已配置防抖（Debounce）或节流（Throttle）？
-51. [ ] 小程序代码是否遵守了双线程 setData 频度与尺寸红线（严禁循环调用、单次<1MB、非渲染变量不入 data）、全面屏与胶囊动态避让（wx.getMenuButtonBoundingClientRect、env安全区）及零 DOM/Window 禁令？
-52. [ ] 本次改动是否严格保持了当次任务的外科手术式精准聚焦，坚决杜绝了受历史摘要诱导而回溯重做已交付历史功能（反反刍、防越界）？
 ---
 
-## 配套工程资产速查 (Bundled Assets)
-* **标准设计变量库**：[design-tokens.css](./references/design-tokens.css)
-* **UI 8 态实操手册**：[ui-8-states-guide.md](./references/ui-8-states-guide.md)
-* **高级设计与交互精工指南**：[design-and-ux-craft.md](./references/design-and-ux-craft.md)
-* **后端弹性架构指南**：[backend-resilience.md](./references/backend-resilience.md)
-* **获奖级组件示范**：[award-winning-component.html](./examples/award-winning-component.html)
+## Phase 4: 52-Item Audit & Delivery Contract
+
+Every code contribution or refactoring task must verify against this 52-item checklist and conclude with a formal verification receipt:
+
+### Master 52-Item Checklist
+1. [ ] Was the runtime execution path traced directly to active source files rather than relying on speculative keyword searches?
+2. [ ] Was the "No Local PHP Execution" rule respected (if applicable)?
+3. [ ] Are third-party API calls (endpoints, parameters, headers, signatures, response schemas) 100% aligned with official documentation with zero hallucinations?
+4. [ ] Does new or modified code match the established architectural patterns without introducing incompatible paradigms?
+5. [ ] Were CSS modifications made directly in-place rather than appended as overrides at the bottom?
+6. [ ] Are all database queries parameterized via prepared statements with zero string concatenation?
+7. [ ] Are all dynamic HTML outputs sanitized against XSS?
+8. [ ] Is the codebase completely free of hardcoded API keys, passwords, and secrets?
+9. [ ] Are critical comments and historical business logic preserved?
+10. [ ] Are errors safely intercepted and logged server-side without leaking stack traces to users?
+11. [ ] Are DOM elements checked for null before manipulation in JavaScript?
+12. [ ] Were modifications executed directly via native file editing tools rather than interim Python/Shell scripts? Is the workspace completely free of temporary .py scripts, .bak, or test files?
+13. [ ] Do external HTTP requests configure explicit timeouts and resilient fallback handling?
+14. [ ] Are high-frequency endpoints protected by caching and rate limiting?
+15. [ ] Do all database updates/deletes specify a `WHERE` clause, and do queries specify `LIMIT`?
+16. [ ] Is backward compatibility preserved for existing API consumers?
+17. [ ] Are cookies configured with `HttpOnly`, `SameSite`, and `Secure` attributes?
+18. [ ] Are all files saved in UTF-8 without BOM?
+19. [ ] Are sensitive configuration files protected within `.gitignore`?
+20. [ ] Do API endpoints uniformly return `{code, msg, data}` with `application/json` headers?
+21. [ ] Is the UI responsive across mobile devices and miniapps (rpx / safe areas / zero-DOM), and is button microcopy economical (2-6 words, max 8, `white-space: nowrap`)?
+22. [ ] Are file and network handles deterministically closed in `finally` blocks?
+23. [ ] Are multibyte string operations safely handled using `mb_*` functions?
+24. [ ] Are scheduled tasks and background jobs protected by idempotency and re-entrancy locks?
+25. [ ] Is the user interface completely free of internal variable names, debug traces, or AI prompt text?
+26. [ ] Do business files stay within tiered line budgets (1200-1800 std, 3000 max, .po exempt), and functions within 150-200 lines?
+27. [ ] Are loop bodies free of database queries and outbound HTTP calls?
+28. [ ] Are variables and properties strictly validated for non-null types before access?
+29. [ ] Are domain names, IP addresses, and paths fully decoupled from application logic?
+30. [ ] Are dependency lockfiles committed and preserved?
+31. [ ] Are multi-table mutations enclosed in atomic database transactions with rollback on failure?
+32. [ ] Does the UI decisively eliminate "AI-slop" purple-blue gradients and muddy yellows? Are large-area gradient backgrounds strictly banned, confining gradients only to micro-elements (badges, 1px borders, CTA micro-sheens)? Is the palette balanced, comfortable, and structured with a single hero accent?
+33. [ ] Are styles driven by systematic Design Tokens with complete 8-state UI lifecycles?
+34. [ ] Are external payloads normalized before rendering, and are lifecycle listeners/timers 100% cleaned up?
+35. [ ] Do backend endpoints enforce strict DTO whitelists, and are critical write operations idempotent?
+36. [ ] Is Trace-ID logging observable across the full call chain, with jittered retry backoffs and graceful shutdown?
+37. [ ] Do media uploads include pre-compression and dimension budgets with EXIF sanitization?
+38. [ ] Are fullstack performance budgets honored (selective projection, virtualization, lazy loading, $O(N)$ hash indexes)?
+39. [ ] Are native emojis avoided as functional UI icons, with standardized prefixes (Alibaba Iconfont, Remix, FontAwesome) and CDN configurability supported?
+40. [ ] Are row-level ownership checks (IDOR defense), soft deletes, PII masking, and non-destructive migrations implemented?
+41. [ ] Was Occam's Razor (KISS) respected, avoiding speculative over-engineering and bloated abstractions?
+42. [ ] Was a clean-cut refactoring executed, removing 100% of deprecated code from earlier approaches?
+43. [ ] Do all invoked APIs and syntaxes match target runtime environments without deprecated calls or hallucinations?
+44. [ ] Does the implementation demonstrate a holistic architectural view, reusing established infrastructure?
+45. [ ] Were feature/copy modifications propagated across all touchpoints via full-spectrum repository auditing with 100% atomic synchronization, strictly avoiding "updating A while missing BCD"? Was the blast radius evaluated for shared infrastructure?
+46. [ ] Was a pre-coding asset audit performed to avoid duplicate implementations and maintain a Single Source of Truth?
+47. [ ] Were all edge cases simulated (nulls, zero, negatives, concurrency, timeouts) with debugging focused on root causes?
+48. [ ] Are all frontend components, forms, tables, modals, and interactive states delivered with complete, polished, responsive CSS styles matching design tokens, eliminating unstyled raw-HTML "naked" deliverables?
+49. [ ] Are all dynamic and mutable elements (scene illustrations, background graphics, functional modules, copy/rules, icons, dictionaries, mock data) driven dynamically by backend APIs with admin CRUD interfaces, strictly eliminating frontend hardcoding?
+50. [ ] Are state-mutating async actions guarded by immediate button locking (disabled + spinner) with symmetric release in finally blocks, and are high-frequency events debounced/throttled?
+51. [ ] Do mini-program components enforce dual-thread setData limits (<1MB, no loops), dynamic capsule/safe-area hardware calculation (wx.getMenuButtonBoundingClientRect, env safe area), and zero DOM/window access?
+52. [ ] Did the modification maintain a surgical scope focused exclusively on the user's active request, strictly avoiding unprompted regressive rework or re-doing historical tasks (anti-context-regurgitation)?
+53. [ ] Was the task executed with surgical target isolation—focusing exclusively on target A (at most lightly checking directly coupled B), with zero unprompted global scanning, zero over-testing, zero unsolicited side-quests, and zero verbosity?
+54. [ ] In routine maintenance (styling, bug fixes, copy), were full-checklist verification, whole-skill audits, over-thinking, and ceremonial delivery strictly avoided, executing only direct target changes?
+---
+
+## Bundled Engineering Assets
+
+* **Standard Design Tokens Pool**: [design-tokens.css](./references/design-tokens.css)
+* **UI 8-State Lifecycle Specification**: [ui-8-states-guide.md](./references/ui-8-states-guide.md)
+* **Design & UX Craft Guide**: [design-and-ux-craft.md](./references/design-and-ux-craft.md)
+* **Backend Resilience & Architecture Guide**: [backend-resilience.md](./references/backend-resilience.md)
+* **Award-Winning Interactive Showcase**: [award-winning-component.html](./examples/award-winning-component.html)

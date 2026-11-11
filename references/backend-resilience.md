@@ -1,17 +1,17 @@
-# 后端系统弹性、参数防御与并发幂等架构指南 (Backend Resilience & System Architecture)
+# Backend Resilience, Parameter Defense & Concurrency Architecture Guide
 
-本指南面向资深后端/系统工程师，定义了生产级接口服务、并发写操作、外部通信以及长期运行进程的最高工程标准。
+This guide defines production-grade architectural standards for mission-critical API services, concurrent write operations, external distributed communications, and long-running daemon workers.
 
 ---
 
-## 1. 强类型 DTO 入参白名单防御 (Mass Assignment Defense)
+## 1. Strict DTO Parameter Whitelisting (Mass Assignment Defense)
 
-### 核心原则
-客户端传入的 Payload 严禁直接穿透至持久层（ORM/SQL）或核心业务逻辑。所有请求必须经过严格的 **DTO（Data Transfer Object）或白名单 Schema** 进行类型铸模与清洗。
+### Core Principle
+Inbound HTTP payloads must never penetrate directly into persistent storage (ORM/SQL) or internal domain models. Every inbound request must pass through a strictly typed **DTO (Data Transfer Object)** or schema validator for type casting and property whitelisting.
 
-### 架构模式 (伪代码示例)
+### Architectural Pattern (Pseudocode Implementation)
 ```php
-// 1. 定义强类型白名单 DTO
+// 1. Strictly typed whitelist DTO
 class UpdateUserProfileDTO {
     public int $userId;
     public string $nickname;
@@ -23,9 +23,9 @@ class UpdateUserProfileDTO {
         $dto->nickname = trim(strip_tags((string)($input['nickname'] ?? '')));
         $dto->bio = isset($input['bio']) ? trim((string)$input['bio']) : null;
         
-        // 校验器：过滤恶意注入或超出范围的属性（如 is_admin, role 等被强行阻断）
+        // Validation: Block mass assignment attacks (e.g., unauthorized is_admin, role attributes)
         if ($dto->userId <= 0 || mb_strlen($dto->nickname) === 0) {
-            throw new InvalidArgumentException("非法参数");
+            throw new InvalidArgumentException("Invalid request payload parameters.");
         }
         return $dto;
     }
@@ -34,65 +34,64 @@ class UpdateUserProfileDTO {
 
 ---
 
-## 2. 服务端绝对幂等保障 (Write Idempotency)
+## 2. Server-Side Write Idempotency
 
-### 核心原则
-涉及资产流转、订单创建、积分变更、关键状态机的写接口，**绝对不能仅靠前端按钮禁点防重**。弱网超时重试、用户脚本连击或多端并发均可能产生并发穿透，必须在服务端实现绝对幂等。
+### Core Principle
+Operations modifying financial assets, order lifecycles, account credits, or crucial state machines **must never rely solely on frontend button disabling**. Network timeouts, retries, and concurrent API clients can trigger duplicate executions; idempotency must be guaranteed server-side.
 
-### 落地三级防线
-1. **第一级：请求在途锁（In-flight Mutex Lock）**：
-   - 提取请求头中的 `Idempotency-Key` 或基于 `user_id + action + resource_id` 计算 Hash。
-   - 使用 Redis `SET resource_key token NX EX 10` 获取短期运行锁。若获取失败直接返回 `409 Conflict: 请求处理中，请勿重复提交`。
-2. **第二级：数据库唯一索引（Unique Constraint）**：
-   - 数据表必须具备业务幂等列并建立 `UNIQUE KEY`（如 `order_no` 或 `(user_id, biz_token)`）。
-   - 依赖底层数据库引擎的原子唯一性约束，防止任何并发脏数据插入。
-3. **第三级：业务状态机单向流转防重入**：
-   - 状态更新必须具备严格的前置状态校验：
+### Three Lines of Defense
+1. **Tier 1: In-Flight Mutex Lock**:
+   - Extract an `Idempotency-Key` header, or derive a hash from `user_id + action + resource_id`.
+   - Acquire a short-lived distributed mutex via Redis: `SET resource_key token NX EX 10`. If acquisition fails, return `409 Conflict: Request is already being processed`.
+2. **Tier 2: Database Unique Constraint**:
+   - Tables must define a business idempotency column backed by a `UNIQUE KEY` (e.g., `order_no` or `(user_id, biz_token)`).
+   - Leverage database engine atomicity to prevent concurrent insertion of duplicate records.
+3. **Tier 3: Unidirectional State Machine Guard**:
+   - State updates must enforce preconditions:
      ```sql
      UPDATE orders SET status = 'PAID' WHERE id = :id AND status = 'PENDING';
      ```
-   - 影响行数为 0 时判定为重复触发或非法状态流转，直接返回前序结果或幂等成功响应。
+   - If affected row count is 0, the operation was either previously executed or represents an illegal transition. Return the prior successful state idempotently.
 
 ---
 
-## 3. 全链路 Trace-ID 贯穿与审计追踪 (End-to-End Tracing)
+## 3. End-to-End Tracing (Trace-ID) & Audit Trails
 
-### 核心原则
-线上生产排障必须做到“见微知著”。从请求进入系统的第一时刻起，必须分配或透传全局唯一的追踪标识符。
+### Core Principle
+Production observability requires tracing any event from its inception. From the moment a request reaches ingress, assign or propagate a globally unique trace identifier.
 
-### 实现规范
-1. **Header 透传**：网关或入口脚本检查 HTTP 头 `X-Trace-Id`，若不存在则生成 `trace-{UUID}-{timestamp}`，并在响应头中原样回传。
-2. **结构化日志绑定**：所有错误日志、审计日志、数据库慢查询日志必须统一注入 `trace_id` 字段：
+### Specification
+1. **Header Propagation**: Check incoming `X-Trace-Id` headers; if absent, generate `trace-{UUID}-{timestamp}` and echo it back in HTTP response headers.
+2. **Structured Log Injection**: All application errors, access logs, and slow queries must include the `trace_id` field:
    ```json
    {
      "trace_id": "trace-8f9a2b-1727960000",
      "level": "ERROR",
      "timestamp": "2026-10-03T21:50:00Z",
-     "message": "第三方支付网关超时",
+     "message": "Third-party payment gateway timeout",
      "context": { "order_id": 10023, "duration_ms": 3002 }
    }
    ```
-3. **关键操作审计（Audit Trail）**：用户权限变更、资金结算、敏感数据导出必须向审计表记录不可篡改的操作记录（包含操作人、IP、变更前后 Diff、时间与 Trace-ID）。
+3. **Audit Trails**: Privilege escalations, financial adjustments, and bulk data exports must be recorded into immutable audit logs (capturing operator, IP, payload diff, timestamp, and Trace-ID).
 
 ---
 
-## 4. 弹性避退重试算法 (Exponential Backoff with Jitter)
+## 4. Exponential Backoff with Random Jitter
 
-### 核心原则
-调用不可靠的外部第三方接口或分布式服务时，严禁固定间隔连续盲目重试，必须采用**带随机抖动的指数退避重试**，杜绝重试风暴引发下游服务雪崩。
+### Core Principle
+When calling external third-party services or distributed dependencies, blind fixed-interval retries cause thundering herds. Implement **exponential backoff with randomized jitter**.
 
-### 算法实现 (毫秒级)
+### Algorithm
 $$\text{Delay} = \min\left(\text{MaxDelay}, \text{BaseDelay} \times 2^{\text{Attempt}}\right) + \text{RandomJitter}(0, \text{BaseDelay})$$
 
 ```javascript
 async function fetchWithRetry(url, options = {}, maxAttempts = 3) {
-  let baseDelay = 300; // 300ms 基准
+  const baseDelay = 300; // 300ms base
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await fetchWithTimeout(url, options);
     } catch (err) {
       if (attempt === maxAttempts) throw err;
-      // 指数退避 + 随机抖动
       const jitter = Math.random() * baseDelay;
       const delay = Math.min(3000, baseDelay * Math.pow(2, attempt - 1)) + jitter;
       await new Promise(resolve => setTimeout(resolve, delay));
@@ -103,101 +102,98 @@ async function fetchWithRetry(url, options = {}, maxAttempts = 3) {
 
 ---
 
-## 5. 常驻进程优雅停机 (Graceful Shutdown)
+## 5. Graceful Daemon Shutdown
 
-### 核心原则
-消费队列 Worker、WebSocket 服务或长时批处理脚本在发布更新或容器缩容重启时，严禁直接 `kill -9` 强杀，必须监听操作系统退出信号。
+### Core Principle
+Message queue consumers, WebSocket workers, and batch scripts must never be abruptly killed (`kill -9`) during deployments or auto-scaling events. They must capture OS termination signals and shut down gracefully.
 
-### 处理规范
-1. 监听信号：捕获 `SIGTERM`（容器编排停止信号）与 `SIGINT`（Ctrl+C 中断信号）；
-2. 状态切换：将服务状态置为 `SHUTTING_DOWN`，立即拒绝接入新的入站请求/不再拉取新消息；
-3. 排空与释放：允许当前正在处理的在途任务事务完成（最多等待优雅超时阈值，如 15 秒）；
-4. 资源释放：在 `finally` 块显式关闭数据库连接池、Redis 句柄与文件锁，安全调用 `exit(0)` 退出。
+### Shutdown Protocol
+1. **Signal Handling**: Listen for `SIGTERM` (container termination) and `SIGINT` (Ctrl+C).
+2. **State Transition**: Switch service state to `SHUTTING_DOWN`, rejecting new incoming requests/messages.
+3. **Drain In-Flight Work**: Allow currently executing transactions to conclude (subject to a graceful timeout, e.g., 15s).
+4. **Resource Teardown**: Close database connection pools, Redis handles, and file locks cleanly inside `finally` blocks before calling `exit(0)`.
 
 ---
 
-## 6. 行级数据归属鉴权与防水平越权 (IDOR / BOLA Defense)
+## 6. Row-Level Authorization (IDOR / BOLA Defense)
 
-### 核心原则
-Insecure Direct Object References (IDOR) 是业务系统最常被利用的高危漏洞。对于所有非超管用户的私有资源读取、编辑、删除与状态流转，**严禁仅凭客户端传入的资源主键 ID 作为唯一判定条件**，必须强制在持久层绑定当前已鉴权用户的身份上下文。
+### Core Principle
+Insecure Direct Object References (IDOR) allow attackers to manipulate resource IDs to access or modify data belonging to other users. Never query or mutate private user resources based solely on client-supplied primary keys.
 
-### 架构模式 (持久层所有者绑定)
+### Implementation Pattern (Persistent Owner Binding)
 ```php
-// ❌ 存在致命水平越权风险：任意用户修改 URL 参数即可取消他人订单或删除他人文件
+// ❌ Dangerous IDOR Vulnerability: Any user can modify order_id to cancel another user's order
 $stmt = $pdo->prepare("UPDATE orders SET status = 'CANCELLED' WHERE id = :id");
 $stmt->execute([':id' => $input['order_id']]);
 
-// ✅ 强制行级所有者绑定：通过当前 Session/Token 中的鉴权 user_id 进行物理隔离
+// ✅ Enforce Row-Level Ownership: Bind authenticated user context directly in persistent queries
 $stmt = $pdo->prepare("UPDATE orders SET status = 'CANCELLED' WHERE id = :id AND user_id = :userId");
 $stmt->execute([
     ':id'     => (int)$input['order_id'],
     ':userId' => (int)$currentUser->id
 ]);
 if ($stmt->rowCount() === 0) {
-    // 资源不存在或无权操作（对外统一返回 404 或友好无权提示，防资源 ID 探测）
-    throw new ResourceNotFoundOrForbiddenException("资源不存在或无权操作");
+    // Resource not found or unauthorized (return 404 to avoid ID enumeration)
+    throw new ResourceNotFoundOrForbiddenException("Resource not found or unauthorized.");
 }
 ```
 
 ---
 
-## 7. 核心业务软删除与唯一性设计 (Soft Delete Architecture)
+## 7. Soft Delete Architecture & Uniqueness Integrity
 
-### 核心原则
-核心资产数据（订单、用户、资产流水、配置项、审计痕迹）在生产环境**严禁执行物理 `DELETE`**。必须通过时间戳软删除标记（`deleted_at DATETIME/TIMESTAMP NULL`）保留完整历史，用于业务防误删恢复、历史追溯与合规审计。
+### Core Principle
+Core business assets (orders, user profiles, financial ledgers, audit records) must never be physically deleted with `DELETE` in production. Preserve complete historical integrity using timestamped soft deletes (`deleted_at TIMESTAMP NULL`).
 
-### 落地规范与唯一索引设计
-1. **统一时间戳定义**：软删除列命名统一为 `deleted_at`，默认值为 `NULL`（代表活跃/未删除），被删除时记录当前时间戳 `NOW()`。
-2. **全局查询过滤**：
+### Implementation & Unique Index Design
+1. **Uniform Column Standard**: Name soft-delete columns `deleted_at`, defaulting to `NULL` (indicating active/undeleted). Set to `NOW()` upon deletion.
+2. **Global Query Filtering**:
    ```sql
    SELECT id, title, updated_at FROM posts WHERE user_id = :userId AND deleted_at IS NULL;
    ```
-3. **软删除与业务唯一索引冲突解决**：
-   - 当业务要求某字段全局唯一（如 `account` 用户名），但已软删除的数据可能释放该值允许重用时：
-   - **方案 A (联合唯一索引，MySQL 兼容)**：建立 `UNIQUE KEY uk_account_del (account, deleted_at)`。因为在 MySQL/InnoDB 中，多个 `NULL` 值在唯一索引中互不冲突，而删除后 `deleted_at` 具有固定时间戳，既保证未删除记录的唯一性，又保留软删除历史。
-   - **方案 B (归档表迁移)**：在物理删除前，通过事务原子写入 `xxx_archive` 归档表，再执行主表物理清理。
+3. **Unique Key Collision Resolution**:
+   - If a business value must remain unique among active records (e.g., `account` username) but may be reused after soft deletion:
+   - **Composite Unique Key (MySQL Compatible)**: Create `UNIQUE KEY uk_account_del (account, deleted_at)`. In MySQL/InnoDB, multiple `NULL` values in a unique index do not collide, while active records share `NULL` and deleted records hold unique timestamps.
 
 ---
 
-## 8. PII 敏感隐私与日志脱敏规约 (PII Masking & Sanitization)
+## 8. PII Masking & Sensitive Log Sanitization
 
-### 核心原则
-个人敏感信息 (PII, Personally Identifiable Information) 包括手机号、身份证、邮箱、银行卡号等，在对外 API 响应、前端页面渲染以及服务端运行日志中**绝对禁止明文裸露**。
+### Core Principle
+Personally Identifiable Information (PII)—including phone numbers, government IDs, email addresses, and bank accounts—must never be displayed unmasked on user interfaces or leaked in server logs.
 
-### 脱敏规则与实现
+### Masking Implementation
 ```php
 class PiiMasker {
-    // 手机号：前 3 后 4，中间 4 位星号（138****1234）
+    // Phone numbers: Keep first 3 and last 4, mask middle 4 (e.g., 138****1234)
     public static function maskMobile(string $mobile): string {
         return preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $mobile) ?? '';
     }
 
-    // 电子邮箱：保留前缀首字母与域名后缀（z***y@domain.com）
+    // Email addresses: Keep initial character and domain (e.g., z***y@domain.com)
     public static function maskEmail(string $email): string {
         return preg_replace('/(?<=.).(?=.*@)/u', '*', $email) ?? '';
     }
 
-    // 身份证号：保留前 6 后 4，中间掩码
+    // National IDs: Keep first 6 and last 4, mask middle section
     public static function maskIdCard(string $idCard): string {
         return preg_replace('/(\d{6})\d+(\d{4})/', '$1********$2', $idCard) ?? '';
     }
 }
 ```
 
-### 日志脱敏过滤器
-在写入日志文件或推送至日志收集器前，日志 Handler 必须配置白名单或通配脱敏规则，自动对包含 `password`, `token`, `secret`, `access_key`, `card_no` 等键的值替换为 `******`。
+### Log Filter Masking
+Configure centralized log formatters to automatically replace values matching sensitive keys (`password`, `token`, `secret`, `access_key`, `card_no`) with `******`.
 
 ---
 
-## 9. 数据库平滑演进与幂等迁移 (Expand-Contract & Idempotent DDL)
+## 9. Non-Destructive Expand-Contract Migrations
 
-### 核心原则
-生产系统部署绝非单机停机发布，多实例滚动更新期间新旧代码必定短时间并存。数据库变更脚本（DDL）必须具备**重入幂等性**与**向前向后双向兼容性**。
+### Core Principle
+Production systems are upgraded via rolling deployments across multiple instances; new and old application versions inevitably coexist. Database migrations (DDL) must be re-entrant, idempotent, and backward-compatible.
 
-### 幂等 DDL 书写准则
-所有迁移脚本必须支持安全重复执行而无害：
+### Idempotent DDL Guidelines
 ```sql
--- 表创建幂等
 CREATE TABLE IF NOT EXISTS sys_configs (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     cfg_key VARCHAR(64) NOT NULL,
@@ -205,85 +201,79 @@ CREATE TABLE IF NOT EXISTS sys_configs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uk_key (cfg_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- 增列幂等 (存储过程或框架迁移机制)
--- 严禁无保护重复 ADD COLUMN 导致执行中断
 ```
 
-### Expand-Contract 零停机平滑演进四步法
-严禁在生产库中直接执行瞬间破坏性 DDL（如 `DROP COLUMN old_col` 或重命名列）：
-1. **阶段一 (Expand 扩充)**：执行 DDL 新增目标字段 `new_col`（允许为空），此时旧代码继续读写 `old_col`；
-2. **阶段二 (Dual-Write 双写 & 回填)**：发布新版本应用，写操作同时写入 `old_col` 与 `new_col`；后台异步批量脚本回填历史存量数据；
-3. **阶段三 (Contract 读切换)**：将所有读取操作安全平移至 `new_col`，停止写入 `old_col`，观察运行平稳；
-4. **阶段四 (Cleanup 清理)**：在低峰期下线旧列 `DROP COLUMN old_col`，完成无损平滑蜕变。
+### Four-Phase Expand-Contract Methodology
+Never execute instantaneous destructive operations (such as dropping or renaming columns) in production:
+1. **Phase 1 (Expand)**: Add the new column `new_col` as nullable. Legacy application code continues reading and writing `old_col`.
+2. **Phase 2 (Dual-Write & Backfill)**: Deploy the updated application. Write operations write to both `old_col` and `new_col`. Run an asynchronous script to backfill historical rows.
+3. **Phase 3 (Contract)**: Shift read queries to `new_col`. Cease writing to `old_col`. Monitor stability.
+4. **Phase 4 (Cleanup)**: Drop `old_col` during low-traffic maintenance windows, completing zero-downtime evolution.
 
 ---
 
-## 10. 全局架构自洽、彻底重构与依赖验证规范 (Architecture Cohesion, Clean Refactor & API Verification)
+## 10. Holistic Cohesion, Clean Refactoring & API Realism
 
-### 10.1 拒绝过度工程与代码膨胀 (Anti-Overengineering & KISS)
-- **代码经济原则**：优先寻找最自然、扁平、短路径的工程实现。如果 100 行清晰紧凑的代码可以解决问题，绝对禁止引入 500 行的多层工厂、包装类与虚假策略模式；
-- **防虚假扩展性 (Anti-YAGNI)**：严禁脱离当下需求凭空预设未来可能用到的配置项、中间层与抽象接口；每一行代码必须有确定的当下业务归宿。
+### 10.1 Anti-Overengineering (KISS & Anti-YAGNI)
+- Seek the most straightforward, flat, and intuitive implementation. If 100 lines solve the problem, never author 500 lines of multi-layer factories or abstract interfaces for hypothetical requirements.
 
-### 10.2 彻底斩断重构法则 (Clean-Cut Refactoring)
-- **重构闭环**：当方案从 A 升级为 B（例如从轮询重构为事件驱动、从同步数组重构为生成器流），必须对方案 A 进行连根拔除：
-  1. 删除旧方案的专有 Helper、类与废弃参数；
-  2. 删除对旧方案的一切引用与配置调用；
-  3. 严禁留下一半 A、一半 B 的互扯后腿代码，更严禁保留大段注释掉的僵尸代码（Zombie Code）。
+### 10.2 Clean-Cut Refactoring
+- When migrating from Solution A to Solution B, completely eliminate Solution A. Never leave both architectures half-implemented and entangled. Purge zombie code and obsolete parameters.
 
-### 10.3 依赖版本精准对齐、第三方接口实证与零 API 幻觉 (Version Alignment & Real API Grounding)
-- **依赖实证**：在编写任何调用前，必须查验 `composer.json` / `package.json` 中的实际包版本及当前运行环境的语言版本；
-- **第三方接口端点与字段实证铁律**：
-  - 对接第三方 API 时，绝对禁止凭直觉捏造请求端点路径（URL / Method / Protocol）；
-  - 请求参数、Header 标头、加密/签名算法及响应数据结构必须 100% 对齐官方最新权威文档或真实报文；
-  - 严禁盲目臆测深层返回字段（如 `res.data.list` / `res.result.items`），在缺乏官方文档时必须主动查证或要求提供真实报文样例，坚决杜绝“闭门造车”；
-- **杜绝废弃与越级 API**：低版本禁止使用高版本语法糖，高版本严禁调用已废弃/移除的方法；
-- **零 API 幻觉**：绝对禁止凭感觉编造不存在的函数、参数签名或第三方包，未完全掌握的接口必须以官方文档或项目既有调用为准。
-
-### 10.4 宏观全局架构观与自洽性 (Holistic Architecture & Cohesion)
-- **单点与全局的因果推演**：编写任何局部函数前，先通盘审视整个系统的分层架构、数据流向、状态机契约与异常处理规范；
-- **统一公共资产复用**：系统已有现成的公共 Service、Helper 或网络层时，严禁在局部随意自创私有轮子，保持全局统一单一事实来源（Single Source of Truth）。
+### 10.3 Version Alignment & Zero API Hallucination
+- Validate runtime versions and library manifests.
+- When calling third-party APIs, strictly adhere to official documentation for URLs, parameters, headers, and schemas. Never invent unverified endpoints or fields.
 
 ---
 
-## 11. 变更爆炸半径评估、资产前置查重与极值边界防御 (Blast Radius, Asset Audit & Edge-Case Defense)
+## 11. Blast Radius Audit, Asset Deduplication & Edge-Case Defense
 
-### 11.1 变更影响面与爆炸半径控制 (Blast Radius Control)
-- **反向依赖排查**：在修改底层公共类、公共中间件、基础数据库字段时，强制先反向检索所有调用点（References / Call Hierarchy）；
-- **向后兼容性优先**：底层公共接口必须保持向前向下兼容。新增入参必须设置合理的默认值，严禁突变破坏性修改已有参数签名导致下游多模块连环破裂。
+### 11.1 Blast Radius Control
+- Reverse-search all references across the codebase before altering public methods or database columns to guarantee backward compatibility.
 
-### 11.2 编码前置查重与单一真实来源 (Pre-Coding Deduplication & SSOT)
-- **拒绝碎片化重造轮子**：编码前必须在代码库中检索相似命名与关键词。项目内已具备类似实现时，严禁盲目复制或另立门户，必须优先复用或提炼为通用方法；
-- **业务版本收敛**：同一种核心业务计算或流程判定（如折扣算法、身份状态判定），坚决杜绝 A/B/C 多套版本并存，强制收敛至单一标准实现。
+### 11.2 Pre-Coding Deduplication & Single Source of Truth (SSOT)
+- Search existing repositories for utilities before writing new ones. Reusable business logic must have exactly one authoritative implementation.
 
-### 11.3 极值边界推演与根因排查协议 (Edge-Case Simulation & Root-Cause Debugging)
-- **五大极值防御清单**：
-  1. 空值：针对 `null`、`undefined`、空数组、空字符串配置防御回退；
-  2. 极值数字：处理 `0`、负数、边界浮点数（金额必须使用整型分或高精度数学扩展）；
-  3. 并发安全：防连击互斥锁（In-flight lock）与数据库行锁/版本号；
-  4. 权限与状态机防逆流：拦截非法逆向状态流转与越权访问；
-  5. 超时与重试：显式配置超时阈值与熔断兜底。
+### 11.3 Edge-Case Simulation
+- Rigorously simulate nulls, empty collections, negative numbers, numeric overflows, dropped connections, and concurrency race conditions. Trace bugs back to their root causes rather than applying cosmetic patches.
 
 ---
 
-## 12. 后台动态配置解耦与多级安全降级 (Dynamic Admin Configuration & Multi-Tier Fallback)
+## 12. Server-Driven Everything & Zero Frontend Hardcoding (Zero Hardcoded Assets & Logic)
 
-### 核心铁律
-业务代码必须纯粹承载算法、领域逻辑与数据契约，**严禁将动态运营数据、文案与开关写死在源码中**。
-严禁硬编码的数据包括：站点/系统名称、品牌 Logo、轮播图 Banner、客服联系方式、微信二维码、商业费率/充值档位、功能启用开关、用户协议/隐私政策、公告文案及第三方服务秘钥/CDN 域名。
+### Core Mandate
+Frontend layers (Web SPAs, MPAs, WeChat/WeCom Mini-Programs) must strictly serve as presentation and interaction dispatchers. **Hardcoding dynamic scenarios, scene illustrations, icons, functional modules, business copy, rules, or operational lists directly into frontend source files is strictly prohibited.**
+All mutable and operational elements must be dynamically managed and delivered via backend APIs, fully equipped with administrative CRUD interfaces in the management console.
 
-### 强制三层配置架构
-1. **动态持久化与后台管控**：
-   - 运营配置统一入库（如专用的 `sys_configs` 表、系统 Options 表或统一配置字典）；
-   - 后台管理系统必须提供直观的可视化设置界面（输入框、富文本、开关 Switch、图片上传组件），使运营人员可随时自主调整，无需开发人员介入发版。
-2. **高性能缓存与失效策略**：
-   - 配置数据加载至 Redis 或本地文件缓存中，后台修改时主动触发缓存失效，杜绝高频次穿透查询数据库。
-3. **代码级多级安全兜底 (Safe Fallback Defaults)**：
-   - 业务逻辑一律通过统一封装的全局加载器（如 `get_config('key', 'default_value')`）获取；
-   - 无论何时，代码层必须内置生产就绪、合法合规的默认兜底值。当数据库未配置或系统初次部署时，能够平滑优雅降级，绝对杜绝抛出空指针异常或导致前端渲染空白崩溃。
+### Five "Zero Frontend Hardcoding" Mandates
+1. **Zero Hardcoded Imagery & Icons**:
+   - Scene illustrations, hero backgrounds, card covers, functional icons, and promotional banners must never use hardcoded local static paths in frontend templates or stylesheets (e.g., `<image src="/static/scene.png">` or `background-image: url(...)`);
+   - Images and icons must be dynamically delivered via backend API CDN URLs, with admin upload and replacement capabilities; frontends are only allowed a generic local fallback placeholder to prevent broken images during network dropouts.
+2. **Zero Hardcoded Copy & Guidance**:
+   - Scene titles, subtitles, onboarding guidance, game/activity rules, rich text articles, action prompts, and empty-state messages must never be hardcoded into frontend templates;
+   - Copy must be dynamically delivered via backend APIs with admin visual editing (plain text or rich text editors), eliminating the need for code redeployment or app store / mini-program audit re-submissions for copy tweaks.
+3. **Zero Hardcoded Module Orchestration**:
+   - Scene entry points, tab bars, feature cards, and action buttons must have their visibility and order driven by structured backend configurations (Server-Driven UI);
+   - Admin management consoles must provide **visibility toggles (`is_enabled`)** and **sort weight controls (`sort_order`)** for all functional modules.
+4. **Zero Hardcoded Dictionaries & Lists**:
+   - Category trees, industry selectors, filter tags, and business status enumeration dictionaries must never be fabricated as static arrays (e.g., `const list = [...]`) in frontend code;
+   - All lists and dictionaries must be dynamically queried and fetched from backend databases and dictionary APIs.
+5. **Complete End-to-End Delivery: DB + API + Admin CRUD**:
+   - When building any dynamic or mutable business scenario, AI must **never deliver only a superficial frontend facade**;
+   - Delivery must be complete across all 4 tiers: ① Database schema / config table design $\to$ ② Backend delivery & mutation APIs $\to$ ③ Admin management CRUD interface $\to$ ④ Dynamic frontend consumption and rendering.
 
-### 权责边界
-- **开发人员职责**：定义配置项结构（Schema）、校验规则、安全兜底默认值及业务消费逻辑；
-- **运营人员职责**：在后台管理面板自主修改生产环境展示文案、图片素材与运行开关；
-- **红线**：严禁把系统做成“改个电话号码或图片都要改代码重新部署”的劣质工程。
-- **根因直击**：面对跨模块复杂 Bug，严禁靠盲目增加 `try-catch` 或打补丁掩盖报错；必须通过日志和链路追踪找到引发异常的根因数据源头并从根本上解决。
+### Three-Tier Configuration Architecture
+1. **Dynamic Persistence & Admin Dashboard**:
+   - Operational parameters and dynamic assets must be persisted inside a dedicated configuration table (e.g., `sys_configs`), system options table, or configuration dictionary;
+   - Administrative dashboards must expose intuitive UI components (inputs, rich-text editors, switches, image uploaders) enabling operators to update content instantly without code releases.
+2. **High-Performance In-Memory/File Caching**:
+   - Configuration payloads must be cached in Redis or high-speed file caches with active cache invalidation upon administrative updates to prevent repetitive database read saturation.
+3. **Safe Multi-Tier Code Fallbacks**:
+   - Business logic must uniformly access configuration via standardized loaders (e.g., `get_config('key', 'default_value')`);
+   - Production-ready, sensible fallback defaults must be baked into the code layer. If database entries are missing or uninitialized, the system must gracefully degrade without throwing null pointer exceptions or rendering blank crashes.
+
+### Boundary of Responsibilities
+- **Developers Author**: Configuration schemas, validation rules, sensible fallback defaults, API contracts, and dynamic business consumption logic;
+- **Operations Manage**: Production copy, graphic assets, business rules, and feature toggles via the admin panel;
+- **Strict Prohibition**: Never create brittle implementations where updating an image, icon, text prompt, or list requires modifying frontend code, redeploying, or re-submitting mini-program audits;
+- **Root-Cause Resolution**: Never mask complex cross-module errors with superficial `try-catch` patches; always trace back to the authoritative data source and address the defect at its root.
